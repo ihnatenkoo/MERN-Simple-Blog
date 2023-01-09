@@ -18,16 +18,7 @@ export class AuthService {
 
 		const user = await newUser.save();
 
-		const token = jwt.sign(
-			{
-				_id: user._id,
-			},
-			config.get('SECRET_KEY'),
-			{
-				expiresIn: '30d',
-			}
-		);
-
+		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
 		const userInfo = userDto(user);
 		return { ...userInfo, token };
 	}
@@ -44,16 +35,7 @@ export class AuthService {
 			throw new Error('Wrong email or password');
 		}
 
-		const token = jwt.sign(
-			{
-				_id: user._id,
-			},
-			config.get('SECRET_KEY'),
-			{
-				expiresIn: '30d',
-			}
-		);
-
+		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
 		const userInfo = userDto(user);
 		return { ...userInfo, token };
 	}
@@ -64,5 +46,23 @@ export class AuthService {
 			throw new Error('User not found');
 		}
 		return userDto(user);
+	}
+
+	signJwt(userId, key) {
+		return new Promise((resolve, reject) => {
+			jwt.sign(
+				{
+					_id: userId,
+				},
+				key,
+				{ expiresIn: '30d' },
+				(err, token) => {
+					if (err) {
+						reject(err);
+					}
+					resolve(token);
+				}
+			);
+		});
 	}
 }
