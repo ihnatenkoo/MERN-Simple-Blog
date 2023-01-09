@@ -10,3 +10,10 @@ export const registerValidation = [
 	}),
 	body('avatarUrl', 'Wrong Avatar link').optional().isURL(),
 ];
+
+export const loginValidation = [
+	body('email', 'Wrong Email').isEmail(),
+	body('password', 'Password must be more than 5 characters').isLength({
+		min: 5,
+	}),
+];
