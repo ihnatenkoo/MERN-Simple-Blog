@@ -8,6 +8,7 @@ import {
 	registerValidation,
 	loginValidation,
 } from '../validations/auth.validations.js';
+import checkAuth from './checkAuth.middleware.js';
 
 export class AuthController extends BaseController {
 	constructor() {
@@ -24,6 +25,12 @@ export class AuthController extends BaseController {
 				method: 'post',
 				function: this.login,
 				middlewares: [...loginValidation],
+			},
+			{
+				path: '/me',
+				method: 'get',
+				function: this.userInfo,
+				middlewares: [checkAuth],
 			},
 		]);
 	}
@@ -59,7 +66,6 @@ export class AuthController extends BaseController {
 			);
 
 			const { passwordHash, ...userData } = user._doc;
-
 			res.json({ ...userData, token });
 		} catch (error) {
 			res.status(400).json(`Authorization error: ${error}`);
@@ -102,6 +108,22 @@ export class AuthController extends BaseController {
 			res.json({ ...userData, token });
 		} catch (error) {
 			res.status(400).send(`Registration error: ${error}`);
+		}
+	}
+
+	async userInfo(req, res) {
+		try {
+			const user = await UserModel.findById(req.user);
+
+			if (!user) {
+				return res.status(404).json({ message: `User not found` });
+			}
+
+			const { passwordHash, ...userData } = user._doc;
+
+			res.status(200).json({ ...userData });
+		} catch (error) {
+			res.status(400).json({ message: `User Information error: ${error}` });
 		}
 	}
 }
