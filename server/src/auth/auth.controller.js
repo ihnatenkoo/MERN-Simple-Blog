@@ -9,6 +9,7 @@ import {
 	loginValidation,
 } from '../validations/auth.validations.js';
 import checkAuth from './checkAuth.middleware.js';
+import { userDto } from '../common/dto/user.dto.js';
 
 export class AuthController extends BaseController {
 	constructor() {
@@ -65,8 +66,8 @@ export class AuthController extends BaseController {
 				}
 			);
 
-			const { passwordHash, ...userData } = user._doc;
-			res.json({ ...userData, token });
+			const userInfo = userDto(user);
+			res.json({ ...userInfo, token });
 		} catch (error) {
 			res.status(400).json(`Authorization error: ${error}`);
 		}
@@ -103,9 +104,8 @@ export class AuthController extends BaseController {
 				}
 			);
 
-			const { passwordHash, ...userData } = user._doc;
-
-			res.json({ ...userData, token });
+			const userInfo = userDto(user);
+			res.json({ ...userInfo, token });
 		} catch (error) {
 			res.status(400).send(`Registration error: ${error}`);
 		}
@@ -119,9 +119,8 @@ export class AuthController extends BaseController {
 				return res.status(404).json({ message: `User not found` });
 			}
 
-			const { passwordHash, ...userData } = user._doc;
-
-			res.status(200).json({ ...userData });
+			const userInfo = userDto(user);
+			res.status(200).json({ ...userInfo });
 		} catch (error) {
 			res.status(400).json({ message: `User Information error: ${error}` });
 		}
