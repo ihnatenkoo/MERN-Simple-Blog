@@ -8,9 +8,9 @@ export class App {
 	constructor(logger) {
 		this.app = express();
 		this.port = 4444;
-		this.AuthController = new AuthController();
-		this.ExceptionFiler = new ExceptionFiler(logger);
 		this.logger = logger;
+		this.AuthController = new AuthController(logger);
+		this.ExceptionFiler = new ExceptionFiler(logger);
 	}
 
 	useRoutes() {

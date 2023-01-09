@@ -9,23 +9,26 @@ import { AuthService } from './auth.service.js';
 import { HttpError } from '../errors/http-error.class.js';
 
 export class AuthController extends BaseController {
-	constructor() {
-		super();
+	constructor(logger) {
+		super(logger);
 		this.AuthService = new AuthService();
 		this.bindRoutes([
 			{
+				basePath: 'auth',
 				path: '/register',
 				method: 'post',
 				function: this.register,
 				middlewares: [...registerValidation],
 			},
 			{
+				basePath: 'auth',
 				path: '/login',
 				method: 'post',
 				function: this.login,
 				middlewares: [...loginValidation],
 			},
 			{
+				basePath: 'auth',
 				path: '/me',
 				method: 'get',
 				function: this.userInfo,

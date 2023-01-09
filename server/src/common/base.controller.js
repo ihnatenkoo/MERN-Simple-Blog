@@ -1,8 +1,9 @@
 import { Router } from 'express';
 
 export class BaseController {
-	constructor() {
+	constructor(logger) {
 		this._router = Router();
+		this.logger = logger;
 	}
 
 	get router() {
@@ -16,6 +17,7 @@ export class BaseController {
 				? [...route.middlewares, handler]
 				: handler;
 			this.router[route.method](route.path, pipeline);
+			this.logger.info(`[${route.basePath}] Add ${route.method} ${route.path}`);
 		}
 	}
 }
