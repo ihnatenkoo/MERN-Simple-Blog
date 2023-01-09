@@ -5,11 +5,12 @@ import { AuthController } from './auth/auth.controller.js';
 import { ExceptionFiler } from './errors/exception.filter.js';
 
 export class App {
-	constructor() {
+	constructor(logger) {
 		this.app = express();
 		this.port = 4444;
 		this.AuthController = new AuthController();
 		this.ExceptionFiler = new ExceptionFiler();
+		this.logger = logger;
 	}
 
 	useRoutes() {
@@ -30,8 +31,7 @@ export class App {
 		this.useExceptionFilter();
 		mongoose.set('strictQuery', true);
 		await mongoose.connect(config.get('DB_URL'));
-		this.app.listen(this.port, () => {
-			`Server started ${this.port}`;
-		});
+		this.app.listen(this.port);
+		this.logger.info(`Server started on https://localhost:${this.port}`);
 	}
 }
