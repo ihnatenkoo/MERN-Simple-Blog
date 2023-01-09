@@ -9,7 +9,7 @@ export class App {
 		this.app = express();
 		this.port = 4444;
 		this.AuthController = new AuthController();
-		this.ExceptionFiler = new ExceptionFiler();
+		this.ExceptionFiler = new ExceptionFiler(logger);
 		this.logger = logger;
 	}
 
@@ -22,7 +22,7 @@ export class App {
 	}
 
 	useExceptionFilter() {
-		this.app.use(this.ExceptionFiler.catch);
+		this.app.use(this.ExceptionFiler.catch.bind(this.ExceptionFiler));
 	}
 
 	async init() {
