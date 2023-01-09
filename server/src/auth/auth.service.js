@@ -27,12 +27,12 @@ export class AuthService {
 		const user = await UserModel.findOne({ email });
 
 		if (!user) {
-			throw new Error('Wrong email or password');
+			return false;
 		}
 
 		const checkPassword = await bcrypt.compare(password, user.passwordHash);
 		if (!checkPassword) {
-			throw new Error('Wrong email or password');
+			return false;
 		}
 
 		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
@@ -43,7 +43,7 @@ export class AuthService {
 	async getUserInfo(userId) {
 		const user = await UserModel.findById(userId);
 		if (!user) {
-			throw new Error('User not found');
+			return false;
 		}
 		return userDto(user);
 	}
