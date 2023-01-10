@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import config from 'config';
 import { AuthController } from './auth/auth.controller.js';
 import { ExceptionFiler } from './errors/exception.filter.js';
+import { ArticleController } from './article/article.controller.js';
 
 export class App {
 	constructor(logger) {
@@ -10,11 +11,13 @@ export class App {
 		this.port = 4444;
 		this.logger = logger;
 		this.AuthController = new AuthController(logger);
+		this.ArticleController = new ArticleController(logger);
 		this.ExceptionFiler = new ExceptionFiler(logger);
 	}
 
 	useRoutes() {
 		this.app.use('/auth', this.AuthController.router);
+		this.app.use('/article', this.ArticleController.router);
 	}
 
 	useMiddleware() {
