@@ -13,4 +13,8 @@ export class ArticleService {
 
 		return await newArticle.save();
 	}
+
+	async getAll() {
+		return await ArticleModel.find().populate('user').exec();
+	}
 }

@@ -17,7 +17,7 @@ export class App {
 
 	useRoutes() {
 		this.app.use('/auth', this.AuthController.router);
-		this.app.use('/article', this.ArticleController.router);
+		this.app.use('/articles', this.ArticleController.router);
 	}
 
 	useMiddleware() {
