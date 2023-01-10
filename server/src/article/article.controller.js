@@ -4,7 +4,6 @@ import { ArticleService } from './article.service.js';
 import { HttpError } from '../errors/http-error.class.js';
 import { articleValidation } from '../validations/article.validations.js';
 import { validationResult } from 'express-validator';
-import ArticleModel from '../models/Article.js';
 export class ArticleController extends BaseController {
 	constructor(logger) {
 		super(logger);
@@ -23,6 +22,12 @@ export class ArticleController extends BaseController {
 				path: '/',
 				method: 'get',
 				function: this.getAll,
+			},
+			{
+				basePath: 'articles',
+				path: '/:id',
+				method: 'get',
+				function: this.getById,
 			},
 		]);
 	}
@@ -51,10 +56,22 @@ export class ArticleController extends BaseController {
 		}
 	}
 
-	async getAll(req, res) {
+	async getAll(req, res, next) {
 		try {
 			const articles = await this.ArticleService.getAll();
 			res.status(200).json(articles);
+		} catch (error) {
+			next(new HttpError(500, `Articles loading error: ${error}`));
+		}
+	}
+
+	async getById(req, res, next) {
+		try {
+			const article = await this.ArticleService.getOne(req.params.id);
+			if (!article) {
+				return next(new HttpError(404, `Article not found`));
+			}
+			res.status(200).json(article);
 		} catch (error) {
 			next(new HttpError(500, `Article loading error: ${error}`));
 		}

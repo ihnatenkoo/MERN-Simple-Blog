@@ -17,4 +17,14 @@ export class ArticleService {
 	async getAll() {
 		return await ArticleModel.find().populate('user').exec();
 	}
+
+	async getOne(id) {
+		return await ArticleModel.findOneAndUpdate(
+			{ _id: id },
+			{ $inc: { viewCount: 1 } },
+			{ returnDocument: 'after' }
+		)
+			.populate('user')
+			.exec();
+	}
 }
