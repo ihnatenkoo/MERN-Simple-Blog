@@ -14,6 +14,13 @@ export class ArticleService {
 		return await newArticle.save();
 	}
 
+	async delete(articleId, userId) {
+		return await ArticleModel.findOneAndDelete({
+			_id: articleId,
+			user: userId,
+		});
+	}
+
 	async getAll() {
 		return await ArticleModel.find().populate('user').exec();
 	}

@@ -1,9 +1,9 @@
-import { BaseController } from '../common/base.controller.js';
-import checkAuthMiddleware from '../auth/checkAuth.middleware.js';
-import { ArticleService } from './article.service.js';
-import { HttpError } from '../errors/http-error.class.js';
-import { articleValidation } from '../validations/article.validations.js';
 import { validationResult } from 'express-validator';
+import { articleValidation } from '../validations/article.validations.js';
+import { HttpError } from '../errors/http-error.class.js';
+import { BaseController } from '../common/base.controller.js';
+import { ArticleService } from './article.service.js';
+import checkAuthMiddleware from '../auth/checkAuth.middleware.js';
 export class ArticleController extends BaseController {
 	constructor(logger) {
 		super(logger);
@@ -16,6 +16,13 @@ export class ArticleController extends BaseController {
 				method: 'post',
 				function: this.create,
 				middlewares: [checkAuthMiddleware, ...articleValidation],
+			},
+			{
+				basePath: 'articles',
+				path: '/:id',
+				method: 'delete',
+				function: this.delete,
+				middlewares: [checkAuthMiddleware],
 			},
 			{
 				basePath: 'articles',
@@ -74,6 +81,20 @@ export class ArticleController extends BaseController {
 			res.status(200).json(article);
 		} catch (error) {
 			next(new HttpError(500, `Article loading error: ${error}`));
+		}
+	}
+
+	async delete(req, res, next) {
+		try {
+			const article = await this.ArticleService.delete(req.params.id, req.user);
+			if (!article) {
+				return next(
+					new HttpError(404, `Article not found or does not belong to you`)
+				);
+			}
+			res.status(200).json(article);
+		} catch (error) {
+			next(new HttpError(500, `Article deleting error: ${error}`));
 		}
 	}
 }
