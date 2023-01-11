@@ -34,4 +34,12 @@ export class ArticleService {
 			.populate('user')
 			.exec();
 	}
+
+	async update(articleId, userId, body) {
+		return await ArticleModel.findOneAndUpdate(
+			{ _id: articleId, user: userId },
+			{ ...body },
+			{ returnDocument: 'after' }
+		);
+	}
 }

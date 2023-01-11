@@ -1,5 +1,8 @@
 import { validationResult } from 'express-validator';
-import { articleValidation } from '../validations/article.validations.js';
+import {
+	articleValidation,
+	articleUpdateValidation,
+} from '../validations/article.validations.js';
 import { HttpError } from '../errors/http-error.class.js';
 import { BaseController } from '../common/base.controller.js';
 import { ArticleService } from './article.service.js';
@@ -19,13 +22,6 @@ export class ArticleController extends BaseController {
 			},
 			{
 				basePath: 'articles',
-				path: '/:id',
-				method: 'delete',
-				function: this.delete,
-				middlewares: [checkAuthMiddleware],
-			},
-			{
-				basePath: 'articles',
 				path: '/',
 				method: 'get',
 				function: this.getAll,
@@ -35,6 +31,20 @@ export class ArticleController extends BaseController {
 				path: '/:id',
 				method: 'get',
 				function: this.getById,
+			},
+			{
+				basePath: 'articles',
+				path: '/:id',
+				method: 'delete',
+				function: this.delete,
+				middlewares: [checkAuthMiddleware],
+			},
+			{
+				basePath: 'articles',
+				path: '/:id',
+				method: 'patch',
+				function: this.update,
+				middlewares: [checkAuthMiddleware, ...articleUpdateValidation],
 			},
 		]);
 	}
@@ -95,6 +105,32 @@ export class ArticleController extends BaseController {
 			res.status(200).json(article);
 		} catch (error) {
 			next(new HttpError(500, `Article deleting error: ${error}`));
+		}
+	}
+
+	async update(req, res, next) {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(400).json(errors.array());
+		}
+
+		try {
+			const articleId = req.params.id;
+			const userId = req.user;
+			const article = await this.ArticleService.update(
+				articleId,
+				userId,
+				req.body
+			);
+			if (!article) {
+				return next(
+					new HttpError(404, `Article not found or does not belong to you`)
+				);
+			}
+			res.status(200).json(article);
+		} catch (error) {
+			next(new HttpError(500, `Article updating error: ${error}`));
 		}
 	}
 }
