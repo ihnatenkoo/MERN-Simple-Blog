@@ -2,7 +2,7 @@ import ArticleModel from '../models/Article.js';
 
 export class ArticleService {
 	async create({ user, title, text, viewCount, tags, imageUrl }) {
-		const newArticle = new ArticleModel({
+		return await ArticleModel.create({
 			user,
 			text,
 			title,
@@ -10,8 +10,6 @@ export class ArticleService {
 			tags,
 			imageUrl,
 		});
-
-		return await newArticle.save();
 	}
 
 	async delete(articleId, userId) {
