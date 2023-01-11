@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from 'config';
+import { HttpError } from '../errors/http-error.class.js';
 
 export default (req, res, next) => {
 	try {
@@ -9,6 +10,6 @@ export default (req, res, next) => {
 		req.user = isValid._id;
 		next();
 	} catch (error) {
-		res.status(403).json({ message: 'Access error' });
+		next(new HttpError(403, 'Access error'));
 	}
 };
