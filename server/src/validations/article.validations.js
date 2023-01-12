@@ -7,14 +7,18 @@ export const articleValidation = [
 			max: 100,
 		})
 		.isString(),
+
 	body('text', 'Must be a string and Min: 30 symbols, Max: 300 symbols')
 		.isLength({
 			min: 30,
 			max: 300,
 		})
 		.isString(),
+
 	body('imageUrl', 'Wrong Image link').optional().isURL(),
-	body('tags', 'Tags must be a string').optional().isArray(),
+
+	body('tags', 'Tags must be an array').optional().isArray(),
+
 	body('viewCount', 'View count must be a number').optional().isNumeric(),
 ];
 
@@ -26,6 +30,7 @@ export const articleUpdateValidation = [
 		})
 		.isString()
 		.optional(),
+
 	body('text', 'Must be a string and Min: 30 symbols, Max: 300 symbols')
 		.isLength({
 			min: 30,
@@ -33,7 +38,10 @@ export const articleUpdateValidation = [
 		})
 		.isString()
 		.optional(),
+
 	body('imageUrl', 'Wrong Image link').optional().isURL(),
-	body('tags', 'Tags must be a string').optional().isArray(),
+
+	body('tags', 'Tags must be an array').optional().isArray(),
+
 	body('viewCount', 'View count must be a number').optional().isNumeric(),
 ];
