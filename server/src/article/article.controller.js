@@ -1,8 +1,8 @@
-import { validationResult } from 'express-validator';
 import {
 	articleValidation,
 	articleUpdateValidation,
 } from '../validations/article.validations.js';
+import validationErrorsMiddleware from '../validations/validationErrors.middleware.js';
 import { HttpError } from '../errors/http-error.class.js';
 import { BaseController } from '../common/base.controller.js';
 import { ArticleService } from './article.service.js';
@@ -18,7 +18,11 @@ export class ArticleController extends BaseController {
 				path: '/',
 				method: 'post',
 				function: this.create,
-				middlewares: [checkAuthMiddleware, ...articleValidation],
+				middlewares: [
+					checkAuthMiddleware,
+					articleValidation,
+					validationErrorsMiddleware,
+				],
 			},
 			{
 				basePath: 'articles',
@@ -44,18 +48,16 @@ export class ArticleController extends BaseController {
 				path: '/:id',
 				method: 'patch',
 				function: this.update,
-				middlewares: [checkAuthMiddleware, ...articleUpdateValidation],
+				middlewares: [
+					checkAuthMiddleware,
+					articleUpdateValidation,
+					validationErrorsMiddleware,
+				],
 			},
 		]);
 	}
 
 	async create(req, res, next) {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			return res.status(400).json(errors.array());
-		}
-
 		try {
 			const { title, text, viewCount, tags } = req.body;
 			const picture = req.files?.picture;
@@ -111,12 +113,6 @@ export class ArticleController extends BaseController {
 	}
 
 	async update(req, res, next) {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			return res.status(400).json(errors.array());
-		}
-
 		try {
 			const articleId = req.params.id;
 			const userId = req.user;
