@@ -57,14 +57,16 @@ export class ArticleController extends BaseController {
 		}
 
 		try {
-			const { title, text, viewCount, tags, imageUrl } = req.body;
+			const { title, text, viewCount, tags } = req.body;
+			const picture = req.files?.picture;
+
 			const article = await this.ArticleService.create({
 				user: req.user,
 				title,
 				text,
 				viewCount,
 				tags,
-				imageUrl,
+				picture,
 			});
 
 			res.status(201).json({ article });

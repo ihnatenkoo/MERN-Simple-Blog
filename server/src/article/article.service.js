@@ -1,7 +1,10 @@
 import ArticleModel from '../models/Article.js';
+import FileService from '../common/file.service.js';
 
 export class ArticleService {
-	async create({ user, title, text, viewCount, tags, imageUrl }) {
+	async create({ user, title, text, viewCount, tags, picture }) {
+		const imageUrl = picture && FileService.saveFile(picture);
+
 		return await ArticleModel.create({
 			user,
 			text,

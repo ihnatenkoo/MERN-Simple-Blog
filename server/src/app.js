@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import filleUpload from 'express-fileupload';
 import config from 'config';
 import { AuthController } from './auth/auth.controller.js';
 import { ExceptionFiler } from './errors/exception.filter.js';
@@ -22,6 +23,8 @@ export class App {
 
 	useMiddleware() {
 		this.app.use(express.json());
+		this.app.use(express.static('static'));
+		this.app.use(filleUpload());
 	}
 
 	useExceptionFilter() {
