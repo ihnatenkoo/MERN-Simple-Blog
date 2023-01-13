@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import dayjs from 'dayjs';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
@@ -48,12 +49,15 @@ export const Post = ({
 			{imageUrl && (
 				<img
 					className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-					src={imageUrl}
+					src={`${process.env.REACT_APP_API_URL}/${imageUrl}`}
 					alt={title}
 				/>
 			)}
 			<div className={styles.wrapper}>
-				<UserInfo {...user} additionalText={createdAt} />
+				<UserInfo
+					{...user}
+					additionalText={dayjs(createdAt).format('DD-MM-YYYY')}
+				/>
 				<div className={styles.indention}>
 					<h2
 						className={clsx(styles.title, { [styles.titleFull]: isFullPost })}

@@ -18,6 +18,7 @@ const articleSlice = createSlice({
 	reducer: {},
 	extraReducers(builder) {
 		builder.addCase(getAllArticles.pending, (state) => {
+			state.articles = [];
 			state.isLoading = true;
 			state.isError = false;
 		});
@@ -26,6 +27,7 @@ const articleSlice = createSlice({
 			state.articles = action.payload;
 		});
 		builder.addCase(getAllArticles.rejected, (state) => {
+			state.articles = [];
 			state.isLoading = false;
 			state.isError = true;
 		});

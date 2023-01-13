@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
+    "dayjs": "^1.11.7",
     "easymde": "^2.16.1",
     "prettier": "^2.6.2",
     "react": "^18.1.0",
