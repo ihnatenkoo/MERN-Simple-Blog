@@ -9,14 +9,19 @@ import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 import { getAllArticles } from '../store/article/article.slice';
+import { getLastTags } from '../store/tags/tags.slice';
 
 export const Home = () => {
 	const dispatch = useDispatch();
+
 	const articles = useSelector((state) => state.articles.articles);
-	const isLoading = useSelector((state) => state.articles.isLoading);
+	const isArticleLoading = useSelector((state) => state.articles.isLoading);
+	const tags = useSelector((state) => state.tags.tags);
+	const isTagsLoading = useSelector((state) => state.tags.isLoading);
 
 	useEffect(() => {
 		dispatch(getAllArticles());
+		dispatch(getLastTags());
 	}, [dispatch]);
 
 	return (
@@ -26,12 +31,12 @@ export const Home = () => {
 				value={0}
 				aria-label="basic tabs example"
 			>
-				<Tab label="Новые" />
-				<Tab label="Популярные" />
+				<Tab label="New" />
+				<Tab label="Popular" />
 			</Tabs>
 			<Grid container spacing={4}>
 				<Grid xs={8} item>
-					{isLoading
+					{isArticleLoading
 						? [...Array(5)].map((_, i) => <PostSkeleton key={i} />)
 						: articles.map((article) => (
 								<Post
@@ -52,10 +57,7 @@ export const Home = () => {
 						  ))}
 				</Grid>
 				<Grid xs={4} item>
-					<TagsBlock
-						items={['react', 'typescript', 'заметки']}
-						isLoading={false}
-					/>
+					<TagsBlock items={tags} isLoading={isTagsLoading} />
 					<CommentsBlock
 						items={[
 							{
