@@ -4,8 +4,9 @@ import filleUpload from 'express-fileupload';
 import cors from 'cors';
 import config from 'config';
 import { AuthController } from './auth/auth.controller.js';
-import { ExceptionFiler } from './errors/exception.filter.js';
 import { ArticleController } from './article/article.controller.js';
+import { TagsController } from './tags/tags.controller.js';
+import { ExceptionFiler } from './errors/exception.filter.js';
 
 export class App {
 	constructor(logger) {
@@ -14,12 +15,14 @@ export class App {
 		this.logger = logger;
 		this.AuthController = new AuthController(logger);
 		this.ArticleController = new ArticleController(logger);
+		this.TagsController = new TagsController(logger);
 		this.ExceptionFiler = new ExceptionFiler(logger);
 	}
 
 	useRoutes() {
 		this.app.use('/auth', this.AuthController.router);
 		this.app.use('/articles', this.ArticleController.router);
+		this.app.use('/tags', this.TagsController.router);
 	}
 
 	useMiddleware() {
