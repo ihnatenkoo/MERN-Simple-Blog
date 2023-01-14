@@ -34,5 +34,5 @@ const articleSlice = createSlice({
 	},
 });
 
-const { actions, reducer } = articleSlice;
+const { reducer } = articleSlice;
 export default reducer;
