@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
-import { PostSkeleton } from '../components/Post/Skeleton';
+import { PostSkeleton } from '../../components/Post/Skeleton';
 
-import { Post } from '../components/Post';
-import { TagsBlock } from '../components/TagsBlock';
-import { CommentsBlock } from '../components/CommentsBlock';
-import { getAllArticles } from '../store/article/article.slice';
-import { getLastTags } from '../store/tags/tags.slice';
+import { Post } from '../../components/Post';
+import { TagsBlock } from '../../components/TagsBlock';
+import { CommentsBlock } from '../../components/CommentsBlock';
+import { getAllArticles } from '../../store/article/article.slice';
+import { getLastTags } from '../../store/tags/tags.slice';
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -41,6 +41,7 @@ export const Home = () => {
 						: articles.map((article) => (
 								<Post
 									key={article._id}
+									id={article._id}
 									title={article.title}
 									imageUrl={article.imageUrl}
 									user={{
