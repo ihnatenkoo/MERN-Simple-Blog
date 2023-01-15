@@ -15,7 +15,7 @@ export const getLastTags = createAsyncThunk('tags/GET_LAST', async () => {
 const tagsSlice = createSlice({
 	name: 'tags',
 	initialState,
-	reducer: {},
+	reducers: {},
 	extraReducers(builder) {
 		builder.addCase(getLastTags.pending, (state) => {
 			state.tags = [];

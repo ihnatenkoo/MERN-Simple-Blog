@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import articles from '../store/article/article.slice';
-import tags from '../store/tags/tags.slice';
+import auth from './auth/auth.slice';
+import articles from './article/article.slice';
+import tags from './tags/tags.slice';
 
 const store = configureStore({
-	reducer: { articles, tags },
+	reducer: { auth, articles, tags },
 	devTools: process.env.NODE_ENV !== 'production',
 });
 

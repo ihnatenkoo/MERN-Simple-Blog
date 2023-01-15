@@ -15,7 +15,7 @@ export const getAllArticles = createAsyncThunk('articles/GET_ALL', async () => {
 const articleSlice = createSlice({
 	name: 'articles',
 	initialState,
-	reducer: {},
+	reducers: {},
 	extraReducers(builder) {
 		builder.addCase(getAllArticles.pending, (state) => {
 			state.articles = [];
