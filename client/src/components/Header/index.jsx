@@ -1,13 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import styles from './Header.module.scss';
+import { logout } from '../../store/auth/auth.slice';
 
 export const Header = () => {
-	const isAuth = false;
+	const dispatch = useDispatch();
+	const isAuth = useSelector((state) => state.auth.isAuth);
 
-	const onClickLogout = () => {};
+	const onLogoutHandler = () => {
+		if (window.confirm('Are you sure you want to logout')) {
+			dispatch(logout());
+		}
+	};
 
 	return (
 		<div className={styles.root}>
@@ -23,11 +30,11 @@ export const Header = () => {
 									<Button variant="contained">Write article</Button>
 								</Link>
 								<Button
-									onClick={onClickLogout}
+									onClick={onLogoutHandler}
 									variant="contained"
 									color="error"
 								>
-									Выйти
+									Logout
 								</Button>
 							</>
 						) : (
