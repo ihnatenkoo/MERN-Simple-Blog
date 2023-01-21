@@ -10,7 +10,7 @@ export const Header = () => {
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
 	const user = useSelector((state) => state.auth.user);
-	const { fullName, avatar } = user ?? {};
+	const { fullName, avatarUrl } = user ?? {};
 
 	const onLogoutHandler = () => {
 		if (window.confirm('Are you sure you want to logout')) {
@@ -23,7 +23,7 @@ export const Header = () => {
 			<Container maxWidth="lg">
 				<div className={styles.inner}>
 					<Link className={styles.logo} to="/">
-						<div>MERN BLOG</div>
+						MERN BLOG
 					</Link>
 					<div className={styles.buttons}>
 						{isAuth ? (
@@ -31,7 +31,10 @@ export const Header = () => {
 								<div className={styles.user}>
 									<img
 										className={styles.user__avatar}
-										src={avatar || 'noavatar.png'}
+										src={
+											`${process.env.REACT_APP_API_URL}/${avatarUrl}` ||
+											'noavatar.png'
+										}
 										alt="user"
 									></img>
 									<span>{fullName}</span>
