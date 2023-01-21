@@ -31,7 +31,7 @@ export class AuthController extends BaseController {
 				basePath: 'auth',
 				path: '/me',
 				method: 'get',
-				function: this.userInfo,
+				function: this.checkAuth,
 				middlewares: [checkAuth],
 			},
 		]);
@@ -55,8 +55,8 @@ export class AuthController extends BaseController {
 		}
 	}
 
-	async userInfo(req, res, next) {
-		const user = await this.AuthService.getUserInfo(req.user);
+	async checkAuth(req, res, next) {
+		const user = await this.AuthService.checkAuth(req.user);
 		if (!user) {
 			return next(new HttpError(403, 'Access error'));
 		}

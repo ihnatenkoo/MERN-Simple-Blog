@@ -40,10 +40,13 @@ const authSlice = createSlice({
 		});
 
 		builder.addCase(onCheckAuth.fulfilled, (state, action) => {
-			state.user = action.payload;
+			const { token, ...userInfo } = action.payload;
+			localStorage.setItem('token', action.payload.token);
+			state.user = userInfo;
 			state.isAuth = true;
 		});
 		builder.addCase(onCheckAuth.rejected, (state) => {
+			localStorage.removeItem('token');
 			state.user = null;
 			state.isAuth = false;
 		});

@@ -40,12 +40,14 @@ export class AuthService {
 		return { ...userInfo, token };
 	}
 
-	async getUserInfo(userId) {
+	async checkAuth(userId) {
 		const user = await UserModel.findById(userId);
 		if (!user) {
 			return false;
 		}
-		return userDto(user);
+		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
+		const userInfo = userDto(user);
+		return { ...userInfo, token };
 	}
 
 	signJwt(userId, key) {
