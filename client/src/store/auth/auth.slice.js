@@ -6,6 +6,14 @@ const initialState = {
 	isAuth: false,
 };
 
+export const onRegister = createAsyncThunk(
+	'auth/REGISTER',
+	async (registerData) => {
+		const { data } = await axios.post('/auth/register', registerData);
+		return data;
+	}
+);
+
 export const onLogin = createAsyncThunk('auth/LOGIN', async (loginData) => {
 	const { data } = await axios.post('/auth/login', loginData);
 	return data;
@@ -27,6 +35,13 @@ const authSlice = createSlice({
 		},
 	},
 	extraReducers(builder) {
+		builder.addCase(onRegister.fulfilled, (state, action) => {
+			const { token, ...userInfo } = action.payload;
+			localStorage.setItem('token', action.payload.token);
+			state.user = userInfo;
+			state.isAuth = true;
+		});
+
 		builder.addCase(onLogin.fulfilled, (state, action) => {
 			const { token, ...userInfo } = action.payload;
 			localStorage.setItem('token', action.payload.token);

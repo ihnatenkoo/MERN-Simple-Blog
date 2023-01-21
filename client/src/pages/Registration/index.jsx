@@ -1,7 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { onRegister } from '../../store/auth/auth.slice';
+
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -11,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import styles from './Registration.module.scss';
 
 export const Registration = () => {
+	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
 
 	const {
@@ -25,15 +28,31 @@ export const Registration = () => {
 		return <Navigate to="/" />;
 	}
 
+	const onRegisterHandler = (registerData) => {
+		const { fullName, password, email } = registerData;
+		const formData = new FormData();
+		formData.append('avatar', registerData.file[0]);
+		formData.append('fullName', fullName);
+		formData.append('password', password);
+		formData.append('email', email);
+		dispatch(onRegister(formData));
+	};
+
 	return (
 		<Paper classes={{ root: styles.root }}>
 			<Typography classes={{ root: styles.title }} variant="h5">
 				Create an account
 			</Typography>
-			<form onSubmit={handleSubmit()}>
+			<form onSubmit={handleSubmit(onRegisterHandler)}>
 				<div className={styles.avatar}>
 					<Avatar sx={{ width: 100, height: 100 }} />
 				</div>
+				<TextField
+					name="avatar"
+					type={'file'}
+					className={styles.field}
+					{...register('file')}
+				/>
 				<TextField
 					className={styles.field}
 					label="Full name"
