@@ -16,9 +16,9 @@ export const Login = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isValid },
 	} = useForm({
-		mode: 'onSubmit',
+		mode: 'onChange',
 	});
 
 	const onLoginHandler = (loginData) => {
@@ -58,12 +58,18 @@ export const Login = () => {
 						required: 'Please enter a password',
 						minLength: {
 							value: 5,
-							message: 'Password must have more than 5 characters',
+							message: 'Password must have more than 4 characters',
 						},
 					})}
 					fullWidth
 				/>
-				<Button type="submit" size="large" variant="contained" fullWidth>
+				<Button
+					disabled={!isValid}
+					type="submit"
+					size="large"
+					variant="contained"
+					fullWidth
+				>
 					Log In
 				</Button>
 			</form>
