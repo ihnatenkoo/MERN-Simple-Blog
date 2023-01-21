@@ -9,6 +9,8 @@ import { logout } from '../../store/auth/auth.slice';
 export const Header = () => {
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
+	const user = useSelector((state) => state.auth.user);
+	const { fullName, avatar } = user ?? {};
 
 	const onLogoutHandler = () => {
 		if (window.confirm('Are you sure you want to logout')) {
@@ -26,6 +28,14 @@ export const Header = () => {
 					<div className={styles.buttons}>
 						{isAuth ? (
 							<>
+								<div className={styles.user}>
+									<img
+										className={styles.user__avatar}
+										src={avatar || 'noavatar.png'}
+										alt="user"
+									></img>
+									<span>{fullName}</span>
+								</div>
 								<Link to="/posts/create">
 									<Button variant="contained">Write article</Button>
 								</Link>

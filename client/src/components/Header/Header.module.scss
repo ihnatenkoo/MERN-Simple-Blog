@@ -1,37 +1,46 @@
 .root {
-  background-color: #fff;
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 30px;
+	background-color: #fff;
+	padding: 10px 0;
+	border-bottom: 1px solid #e0e0e0;
+	margin-bottom: 30px;
 }
 
 .inner {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .logo {
-  background-color: black;
-  color: #fff;
-  font-weight: 700;
-  line-height: 35px;
-  text-transform: uppercase;
-  letter-spacing: 0.15px;
-  border-radius: 5px;
-  padding: 0 10px;
-  text-decoration: none;
+	background-color: black;
+	color: #fff;
+	font-weight: 700;
+	line-height: 35px;
+	text-transform: uppercase;
+	letter-spacing: 0.15px;
+	border-radius: 5px;
+	padding: 0 10px;
+	text-decoration: none;
 
-  &:hover {
-    background-color: #4361ee;
-  }
+	&:hover {
+		background-color: #4361ee;
+	}
 }
 
 .buttons {
-  button {
-    margin-left: 10px;
-  }
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	a {
+		text-decoration: none;
+	}
+}
 
-  a {
-    text-decoration: none;
-  }
+.user {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	&__avatar {
+		width: 35px;
+		height: 35px;
+	}
 }

@@ -1,9 +1,18 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { onCheckAuth } from './store/auth/auth.slice';
 import { Routes, Route } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { Header } from './components';
 import { Home, FullPost, Registration, AddPost, Login } from './pages';
 
-function App() {
+const App = () => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(onCheckAuth());
+	}, []);
+
 	return (
 		<>
 			<Header />
@@ -18,6 +27,6 @@ function App() {
 			</Container>
 		</>
 	);
-}
+};
 
 export default App;
