@@ -19,14 +19,26 @@ export const Header = () => {
 	};
 
 	return (
-		<div className={styles.root}>
+		<header className={styles.header}>
 			<Container maxWidth="lg">
 				<div className={styles.inner}>
 					<Link className={styles.logo} to="/">
 						MERN BLOG
 					</Link>
+
 					<div className={styles.buttons}>
-						{isAuth ? (
+						{!localStorage.getItem('token') && (
+							<>
+								<Link to="/login">
+									<Button variant="outlined">Log In</Button>
+								</Link>
+								<Link to="/register">
+									<Button variant="contained">Create account</Button>
+								</Link>
+							</>
+						)}
+
+						{isAuth && (
 							<>
 								<div className={styles.user}>
 									<img
@@ -39,7 +51,7 @@ export const Header = () => {
 									></img>
 									<span>{fullName}</span>
 								</div>
-								<Link to="/posts/create">
+								<Link to="/post/create">
 									<Button variant="contained">Write article</Button>
 								</Link>
 								<Button
@@ -50,19 +62,10 @@ export const Header = () => {
 									Logout
 								</Button>
 							</>
-						) : (
-							<>
-								<Link to="/login">
-									<Button variant="outlined">Log In</Button>
-								</Link>
-								<Link to="/register">
-									<Button variant="contained">Create account</Button>
-								</Link>
-							</>
 						)}
 					</div>
 				</div>
 			</Container>
-		</div>
+		</header>
 	);
 };

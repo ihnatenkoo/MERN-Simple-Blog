@@ -2,7 +2,7 @@ import axios from '../../api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	user: null,
+	user: {},
 	isAuth: false,
 };
 
