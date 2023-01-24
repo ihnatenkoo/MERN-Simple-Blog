@@ -1,5 +1,5 @@
 import ArticleModel from '../models/Article.js';
-import FileService from '../common/file.service.js';
+import FileService from '../file/file.service.js';
 
 export class ArticleService {
 	async create({ user, title, text, viewCount, tags, picture }) {

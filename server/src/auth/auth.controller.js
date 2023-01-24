@@ -6,7 +6,7 @@ import {
 import validationErrorsMiddleware from '../validations/validationErrors.middleware.js';
 import checkAuth from './checkAuth.middleware.js';
 import { AuthService } from './auth.service.js';
-import FileService from '../common/file.service.js';
+import FileService from '../file/file.service.js';
 import { HttpError } from '../errors/http-error.class.js';
 
 export class AuthController extends BaseController {

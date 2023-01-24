@@ -6,6 +6,7 @@ import config from 'config';
 import { AuthController } from './auth/auth.controller.js';
 import { ArticleController } from './article/article.controller.js';
 import { TagsController } from './tags/tags.controller.js';
+import { FileController } from './file/file.controller.js';
 import { ExceptionFiler } from './errors/exception.filter.js';
 
 export class App {
@@ -16,6 +17,7 @@ export class App {
 		this.AuthController = new AuthController(logger);
 		this.ArticleController = new ArticleController(logger);
 		this.TagsController = new TagsController(logger);
+		this.FileController = new FileController(logger);
 		this.ExceptionFiler = new ExceptionFiler(logger);
 	}
 
@@ -23,6 +25,7 @@ export class App {
 		this.app.use('/auth', this.AuthController.router);
 		this.app.use('/articles', this.ArticleController.router);
 		this.app.use('/tags', this.TagsController.router);
+		this.app.use('/file', this.FileController.router);
 	}
 
 	useMiddleware() {
