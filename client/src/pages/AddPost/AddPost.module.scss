@@ -36,6 +36,10 @@
 	}
 }
 
+.form {
+	margin-top: 40px;
+}
+
 .buttons {
 	display: flex;
 
@@ -46,4 +50,8 @@
 
 .upload {
 	margin-right: 15px !important;
+}
+
+.error {
+	color: #d32f2f;
 }

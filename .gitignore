@@ -26,3 +26,6 @@ dist-ssr
 # Config
 default.json
 .env
+
+#static files
+static

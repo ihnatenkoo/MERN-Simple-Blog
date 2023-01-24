@@ -39,7 +39,7 @@ class FileService {
 	}
 
 	moveFileToPostFolder(fileName) {
-		const folderName = path.resolve('static/post');
+		const folderName = path.resolve('static/posts');
 
 		if (!fs.existsSync(folderName)) {
 			fs.mkdirSync(folderName, { recursive: true });

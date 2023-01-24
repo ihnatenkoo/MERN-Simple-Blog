@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback, useState, useRef } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import axios from '../../api';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -11,10 +12,18 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 
 export const AddPost = () => {
-	const [value, setValue] = useState('');
+	const [valueMDE, setValueMDE] = useState('');
 	const [imageUrl, setImageUrl] = useState('');
 	const isAuth = useSelector((state) => state.auth.isAuth);
 	const inputFileRef = useRef(null);
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		mode: 'onChange',
+	});
 
 	const handleChangePreviewFile = async (e) => {
 		try {
@@ -41,8 +50,20 @@ export const AddPost = () => {
 	};
 
 	const onChangeSimpleMDE = useCallback((value) => {
-		setValue(value);
+		setValueMDE(value);
 	}, []);
+
+	const onPostSubmit = async (postData) => {
+		try {
+			const { data } = await axios.post('/articles', {
+				...postData,
+				imageUrl,
+				text: valueMDE,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const options = useMemo(
 		() => ({
@@ -98,34 +119,55 @@ export const AddPost = () => {
 					alt="Uploaded"
 				/>
 			)}
-			<br />
-			<br />
-			<TextField
-				classes={{ root: styles.title }}
-				variant="standard"
-				placeholder="Title..."
-				fullWidth
-			/>
-			<TextField
-				classes={{ root: styles.tags }}
-				variant="standard"
-				placeholder="Tags"
-				fullWidth
-			/>
-			<SimpleMDE
-				className={styles.editor}
-				value={value}
-				onChange={onChangeSimpleMDE}
-				options={options}
-			/>
-			<div className={styles.buttons}>
-				<Button size="large" variant="contained">
-					Publish
-				</Button>
-				<Link to="/">
-					<Button size="large">Cancel</Button>
-				</Link>
-			</div>
+
+			<form onSubmit={handleSubmit(onPostSubmit)} className={styles.form}>
+				<TextField
+					classes={{ root: styles.title }}
+					variant="standard"
+					placeholder="Title..."
+					fullWidth
+					{...register('title', {
+						required: 'Please enter a title',
+						minLength: {
+							value: 10,
+							message: 'Title must have more than 9 characters',
+						},
+					})}
+				/>
+				{!!errors.title?.message && (
+					<p className={styles.error}>{errors.title?.message}</p>
+				)}
+				<TextField
+					classes={{ root: styles.tags }}
+					variant="standard"
+					placeholder="Tags (separated by commas)"
+					fullWidth
+					{...register('tags', {
+						required: 'Please enter minimum 1 tag',
+					})}
+				/>
+				{!!errors.tags?.message && (
+					<p className={styles.error}>{errors.tags?.message}</p>
+				)}
+				<SimpleMDE
+					className={styles.editor}
+					value={valueMDE}
+					onChange={onChangeSimpleMDE}
+					options={options}
+				/>
+				{!!errors.text?.message && (
+					<p className={styles.error}>{errors.text?.message}</p>
+				)}
+
+				<div className={styles.buttons}>
+					<Button type="submit" size="large" variant="contained">
+						Publish
+					</Button>
+					<Link to="/">
+						<Button size="large">Cancel</Button>
+					</Link>
+				</div>
+			</form>
 		</Paper>
 	);
 };
