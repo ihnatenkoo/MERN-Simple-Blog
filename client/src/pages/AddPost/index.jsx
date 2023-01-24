@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useMemo, useCallback, useState, useRef } from 'react';
+import { Navigate, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import axios from '../../api';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -8,18 +11,40 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 
 export const AddPost = () => {
-	const imageUrl = '';
-	const [value, setValue] = React.useState('');
+	const [value, setValue] = useState('');
+	const [imageUrl, setImageUrl] = useState('');
+	const isAuth = useSelector((state) => state.auth.isAuth);
+	const inputFileRef = useRef(null);
 
-	const handleChangeFile = () => {};
+	const handleChangePreviewFile = async (e) => {
+		try {
+			const file = e.target.files[0];
+			const formData = new FormData();
+			formData.append('file', file);
+			const { data } = await axios.post('file/upload-preview', formData);
+			setImageUrl(data.url);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-	const onClickRemoveImage = () => {};
+	const onClickRemovePreview = async () => {
+		try {
+			const { data } = await axios.post('file/delete', {
+				url: imageUrl,
+				folder: 'previews',
+			});
+			setImageUrl('');
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-	const onChange = React.useCallback((value) => {
+	const onChangeSimpleMDE = useCallback((value) => {
 		setValue(value);
 	}, []);
 
-	const options = React.useMemo(
+	const options = useMemo(
 		() => ({
 			spellChecker: false,
 			maxHeight: '400px',
@@ -34,21 +59,42 @@ export const AddPost = () => {
 		[]
 	);
 
+	if (!isAuth && !localStorage.getItem('token')) {
+		return <Navigate to="/" />;
+	}
+
 	return (
 		<Paper style={{ padding: 30 }}>
-			<Button variant="outlined" size="large">
-				Load Preview
-			</Button>
-			<input type="file" onChange={handleChangeFile} hidden />
-			{imageUrl && (
-				<Button variant="contained" color="error" onClick={onClickRemoveImage}>
-					Delete
+			<div>
+				<Button
+					onClick={() => inputFileRef.current.click()}
+					className={styles.upload}
+					variant="outlined"
+					size="large"
+				>
+					Load Preview
 				</Button>
-			)}
+				<input
+					ref={inputFileRef}
+					type="file"
+					onChange={handleChangePreviewFile}
+					hidden
+				/>
+				{imageUrl && (
+					<Button
+						variant="contained"
+						color="error"
+						onClick={onClickRemovePreview}
+					>
+						Delete
+					</Button>
+				)}
+			</div>
+
 			{imageUrl && (
 				<img
 					className={styles.image}
-					src={`http://localhost:4444${imageUrl}`}
+					src={`${process.env.REACT_APP_API_URL}/previews/${imageUrl}`}
 					alt="Uploaded"
 				/>
 			)}
@@ -69,16 +115,16 @@ export const AddPost = () => {
 			<SimpleMDE
 				className={styles.editor}
 				value={value}
-				onChange={onChange}
+				onChange={onChangeSimpleMDE}
 				options={options}
 			/>
 			<div className={styles.buttons}>
 				<Button size="large" variant="contained">
 					Publish
 				</Button>
-				<a href="/">
+				<Link to="/">
 					<Button size="large">Cancel</Button>
-				</a>
+				</Link>
 			</div>
 		</Paper>
 	);
