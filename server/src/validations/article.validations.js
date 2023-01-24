@@ -9,17 +9,14 @@ export const articleValidation = [
 		.isString(),
 
 	body('text', 'Must be a string and Min: 30 symbols, Max: 300 symbols')
-		.isLength({
-			min: 30,
-			max: 300,
-		})
-		.isString(),
+		.isString()
+		.optional(),
 
 	body('imageUrl', 'Wrong Image link').optional().isURL(),
 
-	body('tags', 'Tags must be an array').optional().isArray(),
+	body('tags', 'Tags must be an array').optional().isString(),
 
-	body('viewCount', 'View count must be a number').optional().isNumeric(),
+	body('viewCount', 'View count must be a number').isNumeric().optional(),
 ];
 
 export const articleUpdateValidation = [

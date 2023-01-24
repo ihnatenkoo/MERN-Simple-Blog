@@ -59,16 +59,16 @@ export class ArticleController extends BaseController {
 
 	async create(req, res, next) {
 		try {
-			const { title, text, viewCount, tags } = req.body;
-			const picture = req.files?.picture;
+			const { title, text, viewCount, tags, imageUrl } = req.body;
+			const tagsArray = tags.split(',').map((t) => t.trim());
 
 			const article = await this.ArticleService.create({
 				user: req.user,
+				tags: tagsArray,
 				title,
 				text,
 				viewCount,
-				tags,
-				picture,
+				imageUrl,
 			});
 
 			res.status(201).json({ article });

@@ -37,6 +37,23 @@ class FileService {
 
 		throw new HttpError(404, 'File not found');
 	}
+
+	moveFileToPostFolder(fileName) {
+		const folderName = path.resolve('static/post');
+
+		if (!fs.existsSync(folderName)) {
+			fs.mkdirSync(folderName, { recursive: true });
+		}
+
+		const filePath = path.resolve(folderName, fileName);
+
+		fs.rename(`static/previews/${fileName}`, filePath, (err) => {
+			if (err) {
+				console.error(err);
+				throw new HttpError(500, 'File deleting error');
+			}
+		});
+	}
 }
 
 export default new FileService();

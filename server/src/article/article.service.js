@@ -2,8 +2,10 @@ import ArticleModel from '../models/Article.js';
 import FileService from '../file/file.service.js';
 
 export class ArticleService {
-	async create({ user, title, text, viewCount, tags, picture }) {
-		const imageUrl = picture && FileService.saveFile(picture);
+	async create({ user, title, text, viewCount, tags, imageUrl }) {
+		if (imageUrl) {
+			FileService.moveFileToPostFolder(imageUrl);
+		}
 
 		return await ArticleModel.create({
 			user,
