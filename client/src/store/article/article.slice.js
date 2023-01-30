@@ -12,6 +12,11 @@ export const getAllArticles = createAsyncThunk('articles/GET_ALL', async () => {
 	return data;
 });
 
+export const deleteArticle = createAsyncThunk('articles/DELETE', async (id) => {
+	const { data } = await axios.delete(`/articles/${id}`);
+	return data._id;
+});
+
 const articleSlice = createSlice({
 	name: 'articles',
 	initialState,
@@ -30,6 +35,9 @@ const articleSlice = createSlice({
 			state.articles = [];
 			state.isLoading = false;
 			state.isError = true;
+		});
+		builder.addCase(deleteArticle.fulfilled, (state, action) => {
+			state.articles = state.articles.filter((a) => a._id !== action.payload);
 		});
 	},
 });

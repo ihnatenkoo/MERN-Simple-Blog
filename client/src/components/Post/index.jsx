@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { deleteArticle } from '../../store/article/article.slice';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
@@ -24,7 +26,11 @@ export const Post = ({
 	isFullPost,
 	isEditable,
 }) => {
-	const onClickRemove = () => {};
+	const dispatch = useDispatch();
+
+	const onClickRemove = () => {
+		dispatch(deleteArticle(id));
+	};
 
 	return (
 		<div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

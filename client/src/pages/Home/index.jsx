@@ -18,6 +18,7 @@ export const Home = () => {
 	const isArticleLoading = useSelector((state) => state.articles.isLoading);
 	const tags = useSelector((state) => state.tags.tags);
 	const isTagsLoading = useSelector((state) => state.tags.isLoading);
+	const currentUser = useSelector((state) => state.auth.user?._id);
 
 	useEffect(() => {
 		dispatch(getAllArticles());
@@ -49,7 +50,7 @@ export const Home = () => {
 									viewsCount={article.viewCount}
 									commentsCount={3}
 									tags={article.tags}
-									isEditable
+									isEditable={article.user._id === currentUser}
 								/>
 						  ))}
 				</Grid>
