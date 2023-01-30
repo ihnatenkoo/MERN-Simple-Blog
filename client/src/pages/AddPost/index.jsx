@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, useState, useRef } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import axios from '../../api';
@@ -16,6 +16,7 @@ export const AddPost = () => {
 	const [imageUrl, setImageUrl] = useState('');
 	const isAuth = useSelector((state) => state.auth.isAuth);
 	const inputFileRef = useRef(null);
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -60,6 +61,9 @@ export const AddPost = () => {
 				imageUrl,
 				text: valueMDE,
 			});
+
+			const id = data._id;
+			navigate(`/posts/${id}`);
 		} catch (error) {
 			console.log(error);
 		}
@@ -129,8 +133,8 @@ export const AddPost = () => {
 					{...register('title', {
 						required: 'Please enter a title',
 						minLength: {
-							value: 10,
-							message: 'Title must have more than 9 characters',
+							value: 5,
+							message: 'Title must have more than 4 characters',
 						},
 					})}
 				/>

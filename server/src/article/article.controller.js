@@ -71,7 +71,7 @@ export class ArticleController extends BaseController {
 				imageUrl,
 			});
 
-			res.status(201).json({ article });
+			res.status(201).json(article);
 		} catch (error) {
 			next(new HttpError(500, `Article creating error: ${error}`));
 		}

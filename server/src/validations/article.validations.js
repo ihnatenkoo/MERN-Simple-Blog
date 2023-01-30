@@ -12,7 +12,7 @@ export const articleValidation = [
 		.isString()
 		.optional(),
 
-	body('imageUrl', 'Wrong Image link').optional().isURL(),
+	body('imageUrl', 'Wrong Image link').optional().isString(),
 
 	body('tags', 'Tags must be an array').optional().isString(),
 
