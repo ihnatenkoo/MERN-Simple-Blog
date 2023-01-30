@@ -38,19 +38,19 @@ class FileService {
 		throw new HttpError(404, 'File not found');
 	}
 
-	moveFileToPostFolder(fileName) {
-		const folderName = path.resolve('static/posts');
+	moveFile(fileName, folderName) {
+		const folderPath = path.resolve(`static/${folderName}`);
 
-		if (!fs.existsSync(folderName)) {
-			fs.mkdirSync(folderName, { recursive: true });
+		if (!fs.existsSync(folderPath)) {
+			fs.mkdirSync(folderPath, { recursive: true });
 		}
 
-		const filePath = path.resolve(folderName, fileName);
+		const filePath = path.resolve(folderPath, fileName);
 
 		fs.rename(`static/previews/${fileName}`, filePath, (err) => {
 			if (err) {
 				console.error(err);
-				throw new HttpError(500, 'File deleting error');
+				throw new HttpError(500, 'File rename error');
 			}
 		});
 	}

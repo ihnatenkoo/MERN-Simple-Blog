@@ -1,25 +1,28 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from 'config';
+import FileService from '../file/file.service.js';
 import UserModel from '../models/User.js';
 import { userDto } from '../common/dto/user.dto.js';
 
 export class AuthService {
 	async createUser({ password, email, fullName, avatarUrl }) {
 		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password, salt);
+		const passwordHash = await bcrypt.hash(password, salt);
 
-		const newUser = new UserModel({
-			email: email,
-			fullName: fullName,
-			avatarUrl: avatarUrl,
-			passwordHash: hash,
+		const newUser = await UserModel.create({
+			email,
+			fullName,
+			avatarUrl,
+			passwordHash,
 		});
 
-		const user = await newUser.save();
+		if (avatarUrl) {
+			FileService.moveFile(avatarUrl, 'avatars');
+		}
 
-		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
-		const userInfo = userDto(user);
+		const token = await this.signJwt(newUser._id, config.get('SECRET_KEY'));
+		const userInfo = userDto(newUser);
 		return { ...userInfo, token };
 	}
 

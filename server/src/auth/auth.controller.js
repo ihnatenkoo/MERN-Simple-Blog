@@ -49,13 +49,8 @@ export class AuthController extends BaseController {
 
 	async register(req, res, next) {
 		try {
-			const avatar = req.files?.avatar;
-			const avatarUrl = avatar && FileService.saveFile(avatar);
-			const user = await this.AuthService.createUser({
-				...req.body,
-				avatarUrl,
-			});
-			res.json({ ...user, avatarUrl });
+			const user = await this.AuthService.createUser(req.body);
+			res.json(user);
 		} catch (error) {
 			next(new HttpError(400, `Registration Error: ${error}`));
 		}

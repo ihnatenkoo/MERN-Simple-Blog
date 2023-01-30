@@ -4,7 +4,7 @@ import FileService from '../file/file.service.js';
 export class ArticleService {
 	async create({ user, title, text, viewCount, tags, imageUrl }) {
 		if (imageUrl) {
-			FileService.moveFileToPostFolder(imageUrl);
+			FileService.moveFile(imageUrl, 'posts');
 		}
 
 		return await ArticleModel.create({

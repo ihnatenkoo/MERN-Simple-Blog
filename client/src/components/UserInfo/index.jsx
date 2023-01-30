@@ -6,7 +6,10 @@ export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
 		<div className={styles.root}>
 			<img
 				className={styles.avatar}
-				src={`${process.env.REACT_APP_API_URL}/${avatarUrl}` || '/noavatar.png'}
+				src={
+					`${process.env.REACT_APP_API_URL}/avatars/${avatarUrl}` ||
+					'/noavatar.png'
+				}
 				alt={fullName}
 			/>
 			<div className={styles.userDetails}>

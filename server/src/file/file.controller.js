@@ -12,7 +12,6 @@ export class FileController extends BaseController {
 				path: '/upload-preview',
 				method: 'post',
 				function: this.uploadPreview,
-				middlewares: [checkAuth],
 			},
 			{
 				basePath: 'file',

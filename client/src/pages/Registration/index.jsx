@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { onRegister } from '../../store/auth/auth.slice';
+import axios from '../../api/';
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 
 import styles from './Registration.module.scss';
 
 export const Registration = () => {
+	const [avatarUrl, setAvatarUrl] = useState('');
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
 
@@ -28,14 +29,21 @@ export const Registration = () => {
 		return <Navigate to="/" />;
 	}
 
-	const onRegisterHandler = (registerData) => {
-		const { fullName, password, email } = registerData;
-		const formData = new FormData();
-		formData.append('avatar', registerData.file[0]);
-		formData.append('fullName', fullName);
-		formData.append('password', password);
-		formData.append('email', email);
-		dispatch(onRegister(formData));
+	const onAvatarPreviewSubmit = async (e) => {
+		try {
+			const file = e.target.files[0];
+			const formData = new FormData();
+			formData.append('file', file);
+			const { data } = await axios.post('file/upload-preview', formData);
+			setAvatarUrl(data.url);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const onRegisterHandler = (data) => {
+		const registerData = { ...data, avatarUrl };
+		dispatch(onRegister(registerData));
 	};
 
 	return (
@@ -43,16 +51,24 @@ export const Registration = () => {
 			<Typography classes={{ root: styles.title }} variant="h5">
 				Create an account
 			</Typography>
-			<form onSubmit={handleSubmit(onRegisterHandler)}>
-				<div className={styles.avatar}>
-					<Avatar sx={{ width: 100, height: 100 }} />
-				</div>
-				<TextField
-					name="avatar"
-					type={'file'}
-					className={styles.field}
-					{...register('file')}
+			<div className={styles.avatar}>
+				<img
+					src={
+						(avatarUrl &&
+							`${process.env.REACT_APP_API_URL}/previews/${avatarUrl}`) ||
+						'/noavatar.png'
+					}
+					alt={'avatar'}
 				/>
+				<TextField
+					onChange={onAvatarPreviewSubmit}
+					name="avatar"
+					type="file"
+					className={styles.field}
+				/>
+			</div>
+
+			<form onSubmit={handleSubmit(onRegisterHandler)}>
 				<TextField
 					className={styles.field}
 					label="Full name"
