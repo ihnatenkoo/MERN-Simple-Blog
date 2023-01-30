@@ -32,8 +32,10 @@ $blue: #4361ee;
 	object-fit: cover;
 
 	&Full {
-		min-height: 300px;
-		height: 100%;
+		margin-top: 24px;
+		height: auto;
+		max-height: 700px;
+		object-fit: contain;
 	}
 }
 
