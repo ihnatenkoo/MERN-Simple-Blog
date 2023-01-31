@@ -7,12 +7,14 @@ export class ArticleService {
 			FileService.moveFile(imageUrl, 'posts');
 		}
 
+		const tagsArray = tags.split(',').map((t) => t.trim());
+
 		return await ArticleModel.create({
 			user,
 			text,
 			title,
 			viewCount,
-			tags,
+			tags: tagsArray,
 			imageUrl,
 		});
 	}
@@ -38,10 +40,16 @@ export class ArticleService {
 			.exec();
 	}
 
-	async update(articleId, userId, body) {
+	async update(articleId, userId, title, text, tags, imageUrl) {
+		if (imageUrl) {
+			FileService.moveFile(imageUrl, 'posts');
+		}
+
+		const tagsArray = tags.split(',').map((t) => t.trim());
+
 		return await ArticleModel.findOneAndUpdate(
 			{ _id: articleId, user: userId },
-			{ ...body },
+			{ title, text, tags: tagsArray, imageUrl },
 			{ returnDocument: 'after' }
 		);
 	}

@@ -60,11 +60,10 @@ export class ArticleController extends BaseController {
 	async create(req, res, next) {
 		try {
 			const { title, text, viewCount, tags, imageUrl } = req.body;
-			const tagsArray = tags.split(',').map((t) => t.trim());
 
 			const article = await this.ArticleService.create({
 				user: req.user,
-				tags: tagsArray,
+				tags,
 				title,
 				text,
 				viewCount,
@@ -116,10 +115,14 @@ export class ArticleController extends BaseController {
 		try {
 			const articleId = req.params.id;
 			const userId = req.user;
+			const { title, text, tags, imageUrl } = req.body;
 			const article = await this.ArticleService.update(
 				articleId,
 				userId,
-				req.body
+				title,
+				text,
+				tags,
+				imageUrl
 			);
 			if (!article) {
 				return next(

@@ -47,12 +47,14 @@ class FileService {
 
 		const filePath = path.resolve(folderPath, fileName);
 
-		fs.rename(`static/previews/${fileName}`, filePath, (err) => {
-			if (err) {
-				console.error(err);
-				throw new HttpError(500, 'File rename error');
-			}
-		});
+		if (fs.existsSync(`static/previews/${fileName}`)) {
+			fs.rename(`static/previews/${fileName}`, filePath, (err) => {
+				if (err) {
+					console.error(err);
+					throw new HttpError(500, 'File rename error');
+				}
+			});
+		}
 	}
 }
 
