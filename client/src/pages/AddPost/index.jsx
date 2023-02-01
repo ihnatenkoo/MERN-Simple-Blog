@@ -1,10 +1,4 @@
-import React, {
-	useMemo,
-	useCallback,
-	useState,
-	useRef,
-	useEffect,
-} from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { Navigate, useNavigate, Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -12,7 +6,7 @@ import axios from '../../api';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import SimpleMDE from 'react-simplemde-editor';
+import MySimpleMDE from '../../components/MySimpleMDE/MySimpleMDE';
 
 import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
@@ -104,21 +98,6 @@ export const AddPost = () => {
 		}
 	};
 
-	const options = useMemo(
-		() => ({
-			spellChecker: false,
-			maxHeight: '400px',
-			autofocus: true,
-			placeholder: 'Enter a text...',
-			status: false,
-			autosave: {
-				enabled: true,
-				delay: 1000,
-			},
-		}),
-		[]
-	);
-
 	if (!isAuth && !localStorage.getItem('token')) {
 		return <Navigate to="/" />;
 	}
@@ -175,6 +154,10 @@ export const AddPost = () => {
 							value: 5,
 							message: 'Title must have more than 4 characters',
 						},
+						maxLength: {
+							value: 100,
+							message: 'Max title length is 100 characters',
+						},
 					})}
 				/>
 				{!!errors.title?.message && (
@@ -192,11 +175,10 @@ export const AddPost = () => {
 				{!!errors.tags?.message && (
 					<p className={styles.error}>{errors.tags?.message}</p>
 				)}
-				<SimpleMDE
+				<MySimpleMDE
 					className={styles.editor}
 					value={valueMDE}
 					onChange={onChangeSimpleMDE}
-					options={options}
 				/>
 				{!!errors.text?.message && (
 					<p className={styles.error}>{errors.text?.message}</p>
