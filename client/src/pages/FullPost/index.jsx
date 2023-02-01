@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import axios from '../../api';
 import { Post } from '../../components/Post';
 import { PostSkeleton } from '../../components/Post/Skeleton';
@@ -49,7 +50,7 @@ export const FullPost = () => {
 				tags={article.tags}
 				isFullPost
 			>
-				<p>{article.text}</p>
+				<ReactMarkdown children={article.text} />
 			</Post>
 			<CommentsBlock
 				items={[

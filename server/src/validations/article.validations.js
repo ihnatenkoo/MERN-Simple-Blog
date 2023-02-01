@@ -40,7 +40,7 @@ export const articleUpdateValidation = [
 		.isString()
 		.optional(),
 
-	body('imageUrl', 'Wrong Image link').optional().isURL(),
+	body('imageUrl', 'Wrong Image link').optional().isString(),
 
 	body('tags', 'Tags must be a string').optional().isString(),
 
