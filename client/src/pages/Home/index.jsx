@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -12,6 +12,8 @@ import { getAllArticles } from '../../store/article/article.slice';
 import { getLastTags } from '../../store/tags/tags.slice';
 
 export const Home = () => {
+	const [sort, setSort] = useState('new');
+	const [activeSlide, setActiveSlide] = useState('1');
 	const dispatch = useDispatch();
 
 	const articles = useSelector((state) => state.articles.articles);
@@ -21,19 +23,37 @@ export const Home = () => {
 	const currentUser = useSelector((state) => state.auth.user?._id);
 
 	useEffect(() => {
-		dispatch(getAllArticles());
+		dispatch(getAllArticles(sort));
+	}, [sort]);
+
+	useEffect(() => {
 		dispatch(getLastTags());
-	}, [dispatch]);
+	}, []);
+
+	const onChangeTabSort = (e, value) => {
+		setSort(e.target.name);
+		setActiveSlide(value);
+	};
 
 	return (
 		<>
 			<Tabs
 				style={{ marginBottom: 15 }}
-				value={0}
+				value={activeSlide}
 				aria-label="basic tabs example"
 			>
-				<Tab label="New" />
-				<Tab label="Popular" />
+				<Tab
+					label="New"
+					name="new"
+					value="1"
+					onClick={(e) => onChangeTabSort(e, '1')}
+				/>
+				<Tab
+					label="Popular"
+					name="popular"
+					value="2"
+					onClick={(e) => onChangeTabSort(e, '2')}
+				/>
 			</Tabs>
 			<Grid container spacing={4}>
 				<Grid xs={8} item>

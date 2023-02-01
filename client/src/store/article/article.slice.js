@@ -7,10 +7,13 @@ const initialState = {
 	isError: false,
 };
 
-export const getAllArticles = createAsyncThunk('articles/GET_ALL', async () => {
-	const { data } = await axios.get('/articles');
-	return data;
-});
+export const getAllArticles = createAsyncThunk(
+	'articles/GET_ALL',
+	async (sort) => {
+		const { data } = await axios.get(`/articles?sort=${sort}`);
+		return data;
+	}
+);
 
 export const deleteArticle = createAsyncThunk('articles/DELETE', async (id) => {
 	const { data } = await axios.delete(`/articles/${id}`);
