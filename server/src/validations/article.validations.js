@@ -8,10 +8,9 @@ export const articleValidation = [
 		})
 		.isString(),
 
-	body('text', 'Must be a string and Min: 10 symbols, Max: 10000 symbols')
+	body('text', 'Must be a string and Max: 10000 symbols')
 		.isString()
 		.isLength({
-			min: 10,
 			max: 10000,
 		})
 		.optional(),
@@ -32,9 +31,8 @@ export const articleUpdateValidation = [
 		.isString()
 		.optional(),
 
-	body('text', 'Must be a string and Min: 10 symbols, Max: 10000 symbols')
+	body('text', 'Must be a string and Max: 10000 symbols')
 		.isLength({
-			min: 10,
 			max: 10000,
 		})
 		.isString()
