@@ -77,8 +77,9 @@ export class ArticleController extends BaseController {
 	}
 
 	async getAll(req, res, next) {
+		const { sort } = req.query;
 		try {
-			const articles = await this.ArticleService.getAll();
+			const articles = await this.ArticleService.getAll(sort);
 			res.status(200).json(articles);
 		} catch (error) {
 			next(new HttpError(500, `Articles loading error: ${error}`));

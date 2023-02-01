@@ -26,8 +26,21 @@ export class ArticleService {
 		});
 	}
 
-	async getAll() {
-		return await ArticleModel.find().populate('user').exec();
+	async getAll(sort) {
+		switch (sort) {
+			case 'new':
+				return await ArticleModel.find()
+					.sort({ createdAt: -1 })
+					.populate('user');
+
+			case 'popular': {
+				return await ArticleModel.find()
+					.sort({ viewCount: -1 })
+					.populate('user');
+			}
+			default:
+				return await ArticleModel.find().populate('user');
+		}
 	}
 
 	async getOne(id) {
