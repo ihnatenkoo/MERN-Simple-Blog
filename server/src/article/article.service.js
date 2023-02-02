@@ -26,20 +26,22 @@ export class ArticleService {
 		});
 	}
 
-	async getAll(sort) {
+	async getAll(sort, tag) {
 		switch (sort) {
 			case 'new':
-				return await ArticleModel.find()
+				return await ArticleModel.find(tag ? { tags: tag } : {})
 					.sort({ createdAt: -1 })
 					.populate('user');
 
 			case 'popular': {
-				return await ArticleModel.find()
+				return await ArticleModel.find(tag ? { tags: tag } : {})
 					.sort({ viewCount: -1 })
 					.populate('user');
 			}
 			default:
-				return await ArticleModel.find().populate('user');
+				return await ArticleModel.find(tag ? { tags: tag } : {}).populate(
+					'user'
+				);
 		}
 	}
 
@@ -48,9 +50,7 @@ export class ArticleService {
 			{ _id: id },
 			{ $inc: { viewCount: 1 } },
 			{ returnDocument: 'after' }
-		)
-			.populate('user')
-			.exec();
+		).populate('user');
 	}
 
 	async update(articleId, userId, title, text, tags, imageUrl) {
