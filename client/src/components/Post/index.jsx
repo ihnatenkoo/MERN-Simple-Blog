@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
-import { deleteArticle } from '../../store/article/article.slice';
+import { deleteArticle, SET_TAG } from '../../store/article/article.slice';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
@@ -27,6 +27,10 @@ export const Post = ({
 	isEditable,
 }) => {
 	const dispatch = useDispatch();
+
+	const onClickTag = (tag) => {
+		dispatch(SET_TAG(tag));
+	};
 
 	const onClickRemove = () => {
 		dispatch(deleteArticle(id));
@@ -66,8 +70,8 @@ export const Post = ({
 					</h2>
 					<ul className={styles.tags}>
 						{tags.map((tag) => (
-							<li key={tag}>
-								<Link to={`/tag/${tag}`}>#{tag}</Link>
+							<li key={tag} onClick={() => onClickTag(tag)}>
+								#{tag}
 							</li>
 						))}
 					</ul>
