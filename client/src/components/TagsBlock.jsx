@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -7,18 +8,22 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import TagIcon from '@mui/icons-material/Tag';
 import ListItemText from '@mui/material/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
-
+import { SET_TAG } from '../store/article/article.slice';
 import { SideBlock } from './SideBlock';
 
 export const TagsBlock = ({ items, isLoading = true }) => {
+	const dispatch = useDispatch();
+	const onTagChangeHandler = (tag) => {
+		dispatch(SET_TAG(tag));
+	};
 	return (
 		<SideBlock title="Last Tags">
 			<List>
-				{(isLoading ? [...Array(5)] : items).map((name, i) => (
-					<a
+				{(isLoading ? [...Array(5)] : items).map((tag, i) => (
+					<span
 						key={i}
 						style={{ textDecoration: 'none', color: 'black' }}
-						href={`/tags/${name}`}
+						onClick={() => onTagChangeHandler(tag)}
 					>
 						<ListItem key={i} disablePadding>
 							<ListItemButton>
@@ -28,11 +33,11 @@ export const TagsBlock = ({ items, isLoading = true }) => {
 								{isLoading ? (
 									<Skeleton width={100} />
 								) : (
-									<ListItemText primary={name} />
+									<ListItemText primary={tag} />
 								)}
 							</ListItemButton>
 						</ListItem>
-					</a>
+					</span>
 				))}
 			</List>
 		</SideBlock>

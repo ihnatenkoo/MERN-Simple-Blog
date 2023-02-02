@@ -4,35 +4,44 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 import { PostSkeleton } from '../../components/Post/Skeleton';
-
 import { Post } from '../../components/Post';
 import { TagsBlock } from '../../components/TagsBlock';
 import { CommentsBlock } from '../../components/CommentsBlock';
-import { getAllArticles } from '../../store/article/article.slice';
+import {
+	getArticles,
+	SET_TAG,
+	SET_SORT,
+} from '../../store/article/article.slice';
 import { getLastTags } from '../../store/tags/tags.slice';
+import s from './Home.module.scss';
 
 export const Home = () => {
-	const [sort, setSort] = useState('new');
 	const [activeSlide, setActiveSlide] = useState('1');
-	const dispatch = useDispatch();
 
+	const dispatch = useDispatch();
 	const articles = useSelector((state) => state.articles.articles);
 	const isArticleLoading = useSelector((state) => state.articles.isLoading);
 	const tags = useSelector((state) => state.tags.tags);
 	const isTagsLoading = useSelector((state) => state.tags.isLoading);
 	const currentUser = useSelector((state) => state.auth.user?._id);
+	const currentTag = useSelector((state) => state.articles.currentTag);
+	const sort = useSelector((state) => state.articles.sort);
 
 	useEffect(() => {
-		dispatch(getAllArticles(sort));
-	}, [sort]);
+		dispatch(getArticles({ sort, currentTag }));
+	}, [sort, currentTag]);
 
 	useEffect(() => {
 		dispatch(getLastTags());
 	}, []);
 
 	const onChangeTabSort = (e, value) => {
-		setSort(e.target.name);
+		dispatch(SET_SORT(e.target.name));
 		setActiveSlide(value);
+	};
+
+	const onDeleteActiveTag = () => {
+		dispatch(SET_TAG(''));
 	};
 
 	return (
@@ -54,6 +63,14 @@ export const Home = () => {
 					value="2"
 					onClick={(e) => onChangeTabSort(e, '2')}
 				/>
+				{currentTag && (
+					<div className={s.tag}>
+						<span className={s.tag__name}>#{currentTag}</span>
+						<span className={s.tag__delete} onClick={onDeleteActiveTag}>
+							X
+						</span>
+					</div>
+				)}
 			</Tabs>
 			<Grid container spacing={4}>
 				<Grid xs={8} item>
