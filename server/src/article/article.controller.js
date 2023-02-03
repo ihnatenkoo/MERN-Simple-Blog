@@ -54,6 +54,13 @@ export class ArticleController extends BaseController {
 					validationErrorsMiddleware,
 				],
 			},
+			{
+				basePath: 'articles',
+				path: '/add-comment/:id',
+				method: 'patch',
+				function: this.addComment,
+				middlewares: [checkAuthMiddleware],
+			},
 		]);
 	}
 
@@ -129,6 +136,27 @@ export class ArticleController extends BaseController {
 				return next(
 					new HttpError(404, `Article not found or does not belong to you`)
 				);
+			}
+			res.status(200).json(article);
+		} catch (error) {
+			next(new HttpError(500, `Article updating error: ${error}`));
+		}
+	}
+
+	async addComment(req, res, next) {
+		try {
+			const articleId = req.params.id;
+			const userId = req.user;
+			const { text } = req.body;
+
+			const article = await this.ArticleService.addComment(
+				articleId,
+				userId,
+				text
+			);
+
+			if (!article) {
+				return next(new HttpError(404, `Article not found`));
 			}
 			res.status(200).json(article);
 		} catch (error) {
