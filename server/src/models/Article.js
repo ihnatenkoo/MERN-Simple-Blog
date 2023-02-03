@@ -22,6 +22,14 @@ const ArticleSchema = new mongoose.Schema(
 			default: 0,
 		},
 
+		comments: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Comment',
+				default: [],
+			},
+		],
+
 		tags: {
 			type: Array,
 			default: [],
