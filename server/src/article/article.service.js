@@ -1,4 +1,5 @@
 import ArticleModel from '../models/Article.js';
+import CommentModel from '../models/Comment.js';
 import FileService from '../file/file.service.js';
 
 export class ArticleService {
@@ -50,7 +51,19 @@ export class ArticleService {
 			{ _id: id },
 			{ $inc: { viewCount: 1 } },
 			{ returnDocument: 'after' }
-		).populate('user');
+		).populate([
+			{
+				path: 'user',
+				select: '-passwordHash -createdAt -updatedAt',
+			},
+			{
+				path: 'comments',
+				populate: {
+					path: 'user',
+					select: '-passwordHash -createdAt -updatedAt',
+				},
+			},
+		]);
 	}
 
 	async update(articleId, userId, title, text, tags, imageUrl) {
@@ -65,5 +78,33 @@ export class ArticleService {
 			{ title, text, tags: tagsArray, imageUrl },
 			{ returnDocument: 'after' }
 		);
+	}
+
+	async addComment(articleId, userId, text) {
+		const comment = await CommentModel.create({
+			text,
+			user: userId,
+			articleId,
+		});
+
+		const article = await ArticleModel.findOneAndUpdate(
+			{ _id: articleId },
+			{ $push: { comments: comment } },
+			{ returnDocument: 'after' }
+		).populate([
+			{
+				path: 'user',
+				select: '-passwordHash -createdAt -updatedAt',
+			},
+			{
+				path: 'comments',
+				populate: {
+					path: 'user',
+					select: '-passwordHash -createdAt -updatedAt',
+				},
+			},
+		]);
+
+		return article;
 	}
 }
