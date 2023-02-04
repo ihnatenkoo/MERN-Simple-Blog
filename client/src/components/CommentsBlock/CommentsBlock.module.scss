@@ -1,5 +1,18 @@
 .comment {
-	max-width: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	cursor: pointer;
+
+	&:hover {
+		.comment__nav {
+			visibility: visible;
+		}
+	}
+	&:hover {
+		background-color: rgba(231, 230, 230, 0.2);
+	}
 
 	&__userName {
 		font-weight: 700;
@@ -23,6 +36,25 @@
 
 	&__text {
 		word-wrap: break-word;
-		word-break: break-all;
+	}
+
+	&__nav {
+		margin-right: 12px;
+		visibility: hidden;
+		display: flex;
+		gap: 12px;
+		font-style: italic;
+		opacity: 0.8;
+
+		&_edit:hover {
+			font-weight: 700;
+			color: #4361ee;
+			text-decoration: underline;
+		}
+		&_delete:hover {
+			font-weight: 700;
+			color: #d32f2f;
+			text-decoration: underline;
+		}
 	}
 }

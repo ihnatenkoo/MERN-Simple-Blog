@@ -1,5 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
 import { SideBlock } from '../SideBlock';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -9,6 +10,8 @@ import Skeleton from '@mui/material/Skeleton';
 import s from './CommentsBlock.module.scss';
 
 export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
+	const userId = useSelector((state) => state.auth.user._id);
+
 	return (
 		<SideBlock title="Comments">
 			<List>
@@ -37,14 +40,24 @@ export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
 							) : (
 								<>
 									<div className={s.comment}>
-										<span className={s.comment__userName}>
-											{comment.user.fullName}
-										</span>
-										<div className={s.comment__time}>
-											<span>{dayjs(comment.createdAt).format('HH:mm')}</span>
-											<span>{dayjs(comment.createdAt).format('DD-MM-YY')}</span>
+										<div>
+											<span className={s.comment__userName}>
+												{comment.user.fullName}
+											</span>
+											<div className={s.comment__time}>
+												<span>{dayjs(comment.createdAt).format('HH:mm')}</span>
+												<span>
+													{dayjs(comment.createdAt).format('DD-MM-YY')}
+												</span>
+											</div>
+											<span className={s.comment__text}>{comment.text}</span>
 										</div>
-										<span className={s.comment__text}>{comment.text}</span>
+										{userId === comment.user._id && (
+											<div className={s.comment__nav}>
+												<span className={s.comment__nav_edit}>edit</span>
+												<span className={s.comment__nav_delete}>delete</span>
+											</div>
+										)}
 									</div>
 								</>
 							)}
