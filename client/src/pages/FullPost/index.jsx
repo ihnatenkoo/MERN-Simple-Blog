@@ -1,33 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOneArticle } from '../../store/article/article.slice';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import axios from '../../api';
 import { Post } from '../../components/Post';
 import { PostSkeleton } from '../../components/Post/Skeleton';
-import { Index } from '../../components/AddComment';
-import { CommentsBlock } from '../../components/CommentsBlock';
+import { AddComment } from '../../components/AddComment';
+import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
 
 export const FullPost = () => {
 	const { id } = useParams();
-	const [article, setArticle] = useState({});
-	const [isLoading, setIsLoading] = useState(true);
-	const [isError, setIsError] = useState(false);
+	const dispatch = useDispatch();
+	const article = useSelector((state) => state.articles.openArticle);
+	const { isLoading, isError } = useSelector((state) => state.articles);
 
 	useEffect(() => {
-		getArticle();
+		dispatch(getOneArticle(id));
 	}, []);
-
-	const getArticle = async () => {
-		try {
-			const { data } = await axios.get(`/articles/${id}`);
-			setArticle(data);
-		} catch (error) {
-			setIsError(true);
-			console.log(error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
 
 	if (isLoading) {
 		return <PostSkeleton />;
@@ -52,26 +41,8 @@ export const FullPost = () => {
 			>
 				<ReactMarkdown children={article.text} />
 			</Post>
-			<CommentsBlock
-				items={[
-					{
-						user: {
-							fullName: 'Вася Пупкин',
-							avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-						},
-						text: 'Это тестовый комментарий 555555',
-					},
-					{
-						user: {
-							fullName: 'Иван Иванов',
-							avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-						},
-						text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-					},
-				]}
-				isLoading={false}
-			>
-				<Index />
+			<CommentsBlock items={article.comments} isLoading={isLoading}>
+				<AddComment />
 			</CommentsBlock>
 		</>
 	);

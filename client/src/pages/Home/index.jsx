@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { PostSkeleton } from '../../components/Post/Skeleton';
 import { Post } from '../../components/Post';
 import { TagsBlock } from '../../components/TagsBlock';
-import { CommentsBlock } from '../../components/CommentsBlock';
+import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
 import {
 	getArticles,
 	SET_TAG,

@@ -1,0 +1,28 @@
+.comment {
+	max-width: 100%;
+
+	&__userName {
+		font-weight: 700;
+	}
+
+	&__time {
+		margin: 0;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-style: italic;
+		font-size: 12px;
+		opacity: 0.7;
+
+		:first-child {
+			font-size: 14px;
+			opacity: 1;
+			font-style: normal;
+		}
+	}
+
+	&__text {
+		word-wrap: break-word;
+		word-break: break-all;
+	}
+}

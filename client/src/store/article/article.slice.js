@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	articles: [],
+	openArticle: {},
 	isLoading: false,
 	isError: false,
 	currentTag: '',
@@ -23,6 +24,22 @@ export const deleteArticle = createAsyncThunk('articles/DELETE', async (id) => {
 	const { data } = await axios.delete(`/articles/${id}`);
 	return data._id;
 });
+
+export const getOneArticle = createAsyncThunk(
+	'articles/GET_ONE',
+	async (id) => {
+		const { data } = await axios.get(`/articles/${id}`);
+		return data;
+	}
+);
+
+export const sendComment = createAsyncThunk(
+	'articles/SEND_COMMENT',
+	async ({ id, text }) => {
+		const { data } = await axios.patch(`/articles/add-comment/${id}`, { text });
+		return data;
+	}
+);
 
 const articleSlice = createSlice({
 	name: 'articles',
@@ -49,6 +66,25 @@ const articleSlice = createSlice({
 			state.articles = [];
 			state.isLoading = false;
 			state.isError = true;
+		});
+
+		builder.addCase(getOneArticle.pending, (state) => {
+			state.openArticle = {};
+			state.isLoading = true;
+			state.isError = false;
+		});
+		builder.addCase(getOneArticle.fulfilled, (state, action) => {
+			state.isLoading = false;
+			state.openArticle = action.payload;
+		});
+		builder.addCase(getOneArticle.rejected, (state) => {
+			state.openArticle = {};
+			state.isLoading = false;
+			state.isError = true;
+		});
+
+		builder.addCase(sendComment.fulfilled, (state, action) => {
+			state.openArticle = action.payload;
 		});
 
 		builder.addCase(deleteArticle.fulfilled, (state, action) => {
