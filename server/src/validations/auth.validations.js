@@ -18,7 +18,7 @@ export const registerValidation = [
 		})
 		.isString(),
 
-	body('avatarUrl', 'Wrong Avatar link').optional().isURL(),
+	body('avatarUrl', 'Wrong Avatar link').optional().isString(),
 ];
 
 export const loginValidation = [

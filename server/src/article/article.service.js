@@ -107,4 +107,13 @@ export class ArticleService {
 
 		return article;
 	}
+
+	async deleteComment(commentId, userId) {
+		const comment = await CommentModel.findOneAndDelete({
+			_id: commentId,
+			user: userId,
+		});
+
+		return comment;
+	}
 }

@@ -61,6 +61,13 @@ export class ArticleController extends BaseController {
 				function: this.addComment,
 				middlewares: [checkAuthMiddleware],
 			},
+			{
+				basePath: 'articles',
+				path: '/delete-comment',
+				method: 'delete',
+				function: this.deleteComment,
+				middlewares: [checkAuthMiddleware],
+			},
 		]);
 	}
 
@@ -161,6 +168,27 @@ export class ArticleController extends BaseController {
 			res.status(200).json(article);
 		} catch (error) {
 			next(new HttpError(500, `Article updating error: ${error}`));
+		}
+	}
+
+	async deleteComment(req, res, next) {
+		try {
+			const userId = req.user;
+			const { commentId } = req.body;
+
+			const comment = await this.ArticleService.deleteComment(
+				commentId,
+				userId
+			);
+
+			if (!comment) {
+				return next(
+					new HttpError(404, `Comment not found or does not belong to you`)
+				);
+			}
+			res.status(200).json({ status: 'success' });
+		} catch (error) {
+			next(new HttpError(500, `Comment deleting error: ${error}`));
 		}
 	}
 }
