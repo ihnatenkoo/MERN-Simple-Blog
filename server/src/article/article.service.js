@@ -108,9 +108,9 @@ export class ArticleService {
 		return article;
 	}
 
-	async deleteComment(commentId, userId) {
+	async deleteComment(id, userId) {
 		const comment = await CommentModel.findOneAndDelete({
-			_id: commentId,
+			_id: id,
 			user: userId,
 		});
 
