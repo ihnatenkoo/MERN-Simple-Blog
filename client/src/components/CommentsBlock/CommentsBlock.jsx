@@ -1,6 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteComment } from '../../store/article/article.slice';
 import { SideBlock } from '../SideBlock';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -10,7 +11,12 @@ import Skeleton from '@mui/material/Skeleton';
 import s from './CommentsBlock.module.scss';
 
 export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
+	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.auth.user._id);
+
+	const onDeleteCommentHandler = (id) => {
+		dispatch(deleteComment(id));
+	};
 
 	return (
 		<SideBlock title="Comments">
@@ -55,7 +61,12 @@ export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
 										{userId === comment.user._id && (
 											<div className={s.comment__nav}>
 												<span className={s.comment__nav_edit}>edit</span>
-												<span className={s.comment__nav_delete}>delete</span>
+												<span
+													onClick={() => onDeleteCommentHandler(comment._id)}
+													className={s.comment__nav_delete}
+												>
+													delete
+												</span>
 											</div>
 										)}
 									</div>

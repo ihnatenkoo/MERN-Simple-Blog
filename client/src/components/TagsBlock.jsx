@@ -27,7 +27,7 @@ export const TagsBlock = ({ items, isLoading = true }) => {
 					>
 						<ListItem key={i} disablePadding>
 							<ListItemButton>
-								<ListItemIcon>
+								<ListItemIcon style={{ minWidth: 0 }}>
 									<TagIcon />
 								</ListItemIcon>
 								{isLoading ? (

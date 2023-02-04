@@ -30,12 +30,14 @@ $blue: #4361ee;
 	width: 100%;
 	height: 300px;
 	object-fit: cover;
+	cursor: pointer;
 
 	&Full {
 		margin-top: 24px;
 		height: auto;
 		max-height: 700px;
 		object-fit: contain;
+		cursor: auto;
 	}
 }
 

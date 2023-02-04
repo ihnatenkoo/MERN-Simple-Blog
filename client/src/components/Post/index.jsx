@@ -51,11 +51,13 @@ export const Post = ({
 				</div>
 			)}
 			{imageUrl && (
-				<img
-					className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-					src={`${process.env.REACT_APP_API_URL}/posts/${imageUrl}`}
-					alt={title}
-				/>
+				<Link to={`/posts/${id}`}>
+					<img
+						className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
+						src={`${process.env.REACT_APP_API_URL}/posts/${imageUrl}`}
+						alt={title}
+					/>
+				</Link>
 			)}
 			<div className={styles.wrapper}>
 				<UserInfo

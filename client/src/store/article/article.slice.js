@@ -41,6 +41,14 @@ export const sendComment = createAsyncThunk(
 	}
 );
 
+export const deleteComment = createAsyncThunk(
+	'articles/DELETE_COMMENT',
+	async (id) => {
+		const { data } = await axios.delete(`/articles/delete-comment/${id}`);
+		return data._id;
+	}
+);
+
 const articleSlice = createSlice({
 	name: 'articles',
 	initialState,
@@ -83,12 +91,18 @@ const articleSlice = createSlice({
 			state.isError = true;
 		});
 
+		builder.addCase(deleteArticle.fulfilled, (state, action) => {
+			state.articles = state.articles.filter((a) => a._id !== action.payload);
+		});
+
 		builder.addCase(sendComment.fulfilled, (state, action) => {
 			state.openArticle = action.payload;
 		});
 
-		builder.addCase(deleteArticle.fulfilled, (state, action) => {
-			state.articles = state.articles.filter((a) => a._id !== action.payload);
+		builder.addCase(deleteComment.fulfilled, (state, action) => {
+			state.openArticle.comments = state.openArticle.comments.filter(
+				(c) => c._id !== action.payload
+			);
 		});
 	},
 });
