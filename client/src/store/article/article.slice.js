@@ -35,8 +35,11 @@ export const getOneArticle = createAsyncThunk(
 
 export const sendComment = createAsyncThunk(
 	'articles/SEND_COMMENT',
-	async ({ id, text }) => {
-		const { data } = await axios.patch(`/articles/add-comment/${id}`, { text });
+	async ({ id: articleId, text }) => {
+		const { data } = await axios.post(`/comment`, {
+			text,
+			articleId,
+		});
 		return data;
 	}
 );
@@ -45,7 +48,7 @@ export const deleteComment = createAsyncThunk(
 	'articles/DELETE_COMMENT',
 	async ({ commentId, articleId }) => {
 		const { data } = await axios.delete(
-			`/articles/${articleId}/delete-comment/${commentId}`
+			`/comment/${articleId}/delete-comment/${commentId}`
 		);
 		return data._id;
 	}
