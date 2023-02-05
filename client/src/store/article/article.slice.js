@@ -43,8 +43,10 @@ export const sendComment = createAsyncThunk(
 
 export const deleteComment = createAsyncThunk(
 	'articles/DELETE_COMMENT',
-	async (id) => {
-		const { data } = await axios.delete(`/articles/delete-comment/${id}`);
+	async ({ commentId, articleId }) => {
+		const { data } = await axios.delete(
+			`/articles/${articleId}/delete-comment/${commentId}`
+		);
 		return data._id;
 	}
 );

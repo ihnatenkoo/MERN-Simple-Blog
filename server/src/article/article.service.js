@@ -108,9 +108,21 @@ export class ArticleService {
 		return article;
 	}
 
-	async deleteComment(id, userId) {
+	async deleteComment(commentId, userId, articleId) {
+		const article = await ArticleModel.findOneAndUpdate(
+			{
+				_id: articleId,
+				user: userId,
+			},
+			{ $pull: { comments: commentId } }
+		);
+
+		if (!article) {
+			throw new Error('Comment deleting from article error');
+		}
+
 		const comment = await CommentModel.findOneAndDelete({
-			_id: id,
+			_id: commentId,
 			user: userId,
 		});
 

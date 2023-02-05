@@ -13,9 +13,10 @@ import s from './CommentsBlock.module.scss';
 export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.auth.user._id);
+	const articleId = useSelector((state) => state.articles.openArticle._id);
 
-	const onDeleteCommentHandler = (id) => {
-		dispatch(deleteComment(id));
+	const onDeleteCommentHandler = (commentId, articleId) => {
+		dispatch(deleteComment({ commentId, articleId }));
 	};
 
 	return (
@@ -62,7 +63,9 @@ export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
 											<div className={s.comment__nav}>
 												<span className={s.comment__nav_edit}>edit</span>
 												<span
-													onClick={() => onDeleteCommentHandler(comment._id)}
+													onClick={() =>
+														onDeleteCommentHandler(comment._id, articleId)
+													}
 													className={s.comment__nav_delete}
 												>
 													delete

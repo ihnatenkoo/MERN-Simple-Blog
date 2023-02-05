@@ -56,14 +56,14 @@ export class ArticleController extends BaseController {
 			},
 			{
 				basePath: 'articles',
-				path: '/add-comment/:id',
+				path: '/add-comment/:articleId',
 				method: 'patch',
 				function: this.addComment,
 				middlewares: [checkAuthMiddleware],
 			},
 			{
 				basePath: 'articles',
-				path: '/delete-comment/:id',
+				path: '/:articleId/delete-comment/:commentId',
 				method: 'delete',
 				function: this.deleteComment,
 				middlewares: [checkAuthMiddleware],
@@ -152,7 +152,7 @@ export class ArticleController extends BaseController {
 
 	async addComment(req, res, next) {
 		try {
-			const articleId = req.params.id;
+			const { articleId } = req.params;
 			const userId = req.user;
 			const { text } = req.body;
 
@@ -174,15 +174,20 @@ export class ArticleController extends BaseController {
 	async deleteComment(req, res, next) {
 		try {
 			const userId = req.user;
-			const { id } = req.params;
+			const { articleId, commentId } = req.params;
 
-			const comment = await this.ArticleService.deleteComment(id, userId);
+			const comment = await this.ArticleService.deleteComment(
+				commentId,
+				userId,
+				articleId
+			);
 
 			if (!comment) {
 				return next(
 					new HttpError(404, `Comment not found or does not belong to you`)
 				);
 			}
+
 			res.status(200).json(comment);
 		} catch (error) {
 			next(new HttpError(500, `Comment deleting error: ${error}`));
