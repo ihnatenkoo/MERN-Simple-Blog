@@ -50,7 +50,7 @@ const authSlice = createSlice({
 		});
 		builder.addCase(onLogin.rejected, (state) => {
 			localStorage.removeItem('token');
-			state.user = null;
+			state.user = {};
 			state.isAuth = false;
 		});
 
@@ -62,7 +62,7 @@ const authSlice = createSlice({
 		});
 		builder.addCase(onCheckAuth.rejected, (state) => {
 			localStorage.removeItem('token');
-			state.user = null;
+			state.user = {};
 			state.isAuth = false;
 		});
 	},

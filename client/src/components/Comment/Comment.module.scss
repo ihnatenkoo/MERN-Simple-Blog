@@ -14,12 +14,27 @@
 		background-color: rgba(231, 230, 230, 0.2);
 	}
 
+	&__inner {
+		flex-grow: 1;
+	}
+
+	&__form {
+		margin-top: 22px;
+		button {
+			margin-top: 12px;
+			background-color: #fbbf24;
+			&:hover {
+				background-color: #f59e0b;
+			}
+		}
+	}
+
 	&__userName {
 		font-weight: 700;
 	}
 
 	&__time {
-		margin: 0 0 6px;
+		margin-bottom: 6px;
 		display: flex;
 		align-items: center;
 		gap: 6px;

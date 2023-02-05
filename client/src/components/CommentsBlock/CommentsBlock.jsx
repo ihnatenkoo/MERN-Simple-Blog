@@ -1,28 +1,17 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment } from '../../store/article/article.slice';
 import { SideBlock } from '../SideBlock';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import Skeleton from '@mui/material/Skeleton';
-import s from './CommentsBlock.module.scss';
+import Comment from '../Comment/Comment';
 
 export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
-	const dispatch = useDispatch();
-	const userId = useSelector((state) => state.auth.user._id);
-	const articleId = useSelector((state) => state.articles.openArticle._id);
-
-	const onDeleteCommentHandler = (commentId, articleId) => {
-		dispatch(deleteComment({ commentId, articleId }));
-	};
-
 	return (
 		<SideBlock title="Comments">
 			<List>
-				{(isLoading ? [...Array(5)] : items).map((comment, index) => (
+				{(isLoading ? [...Array(5)] : items).map((commentData, index) => (
 					<React.Fragment key={index}>
 						<ListItem alignItems="flex-start">
 							<ListItemAvatar>
@@ -30,10 +19,10 @@ export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
 									<Skeleton variant="circular" width={40} height={40} />
 								) : (
 									<Avatar
-										alt={comment.user.fullName}
+										alt={commentData.user.fullName}
 										src={
-											comment.user.avatarUrl
-												? `${process.env.REACT_APP_API_URL}/avatars/${comment.user.avatarUrl}`
+											commentData.user.avatarUrl
+												? `${process.env.REACT_APP_API_URL}/avatars/${commentData.user.avatarUrl}`
 												: '/noavatar.png'
 										}
 									/>
@@ -45,35 +34,7 @@ export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
 									<Skeleton variant="text" height={18} width={230} />
 								</div>
 							) : (
-								<>
-									<div className={s.comment}>
-										<div>
-											<span className={s.comment__userName}>
-												{comment.user.fullName}
-											</span>
-											<div className={s.comment__time}>
-												<span>{dayjs(comment.createdAt).format('HH:mm')}</span>
-												<span>
-													{dayjs(comment.createdAt).format('DD-MM-YY')}
-												</span>
-											</div>
-											<span className={s.comment__text}>{comment.text}</span>
-										</div>
-										{userId === comment.user._id && (
-											<div className={s.comment__nav}>
-												<span className={s.comment__nav_edit}>edit</span>
-												<span
-													onClick={() =>
-														onDeleteCommentHandler(comment._id, articleId)
-													}
-													className={s.comment__nav_delete}
-												>
-													delete
-												</span>
-											</div>
-										)}
-									</div>
-								</>
+								<Comment data={commentData}></Comment>
 							)}
 						</ListItem>
 					</React.Fragment>
