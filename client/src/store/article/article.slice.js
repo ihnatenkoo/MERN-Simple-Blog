@@ -54,6 +54,14 @@ export const deleteComment = createAsyncThunk(
 	}
 );
 
+export const updateComment = createAsyncThunk(
+	'articles/UPDATE_COMMENT',
+	async ({ commentId, text }) => {
+		const { data } = await axios.patch(`/comment/`, { commentId, text });
+		return data;
+	}
+);
+
 const articleSlice = createSlice({
 	name: 'articles',
 	initialState,
@@ -102,6 +110,15 @@ const articleSlice = createSlice({
 
 		builder.addCase(sendComment.fulfilled, (state, action) => {
 			state.openArticle = action.payload;
+		});
+
+		builder.addCase(updateComment.fulfilled, (state, action) => {
+			state.openArticle.comments = state.openArticle.comments.map((c) => {
+				if (c._id === action.payload._id) {
+					return action.payload;
+				}
+				return c;
+			});
 		});
 
 		builder.addCase(deleteComment.fulfilled, (state, action) => {

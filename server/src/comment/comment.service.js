@@ -50,4 +50,24 @@ export class CommentService {
 
 		return comment;
 	}
+
+	async update({ userId, commentId, text }) {
+		const comment = await CommentModel.findOneAndUpdate(
+			{
+				_id: commentId,
+				user: userId,
+			},
+			{
+				text,
+			},
+			{ returnDocument: 'after' }
+		).populate([
+			{
+				path: 'user',
+				select: '-passwordHash -createdAt -updatedAt',
+			},
+		]);
+
+		return comment;
+	}
 }

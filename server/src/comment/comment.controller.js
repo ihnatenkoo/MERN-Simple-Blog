@@ -23,6 +23,13 @@ export class CommentController extends BaseController {
 				function: this.delete,
 				middlewares: [checkAuthMiddleware],
 			},
+			{
+				basePath: 'comment',
+				path: '/',
+				method: 'patch',
+				function: this.update,
+				middlewares: [checkAuthMiddleware],
+			},
 		]);
 	}
 
@@ -63,6 +70,23 @@ export class CommentController extends BaseController {
 			res.status(200).json(comment);
 		} catch (error) {
 			next(new HttpError(500, `Comment deleting error: ${error}`));
+		}
+	}
+
+	async update(req, res, next) {
+		try {
+			const userId = req.user;
+			const { commentId, text } = req.body;
+
+			const comment = await this.CommentService.update({
+				userId,
+				commentId,
+				text,
+			});
+
+			res.status(200).json(comment);
+		} catch (error) {
+			next(new HttpError(500, `Comment updating error: ${error}`));
 		}
 	}
 }

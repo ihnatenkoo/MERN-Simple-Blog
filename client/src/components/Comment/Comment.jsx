@@ -3,7 +3,10 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { deleteComment } from '../../store/article/article.slice';
+import {
+	deleteComment,
+	updateComment,
+} from '../../store/article/article.slice';
 import s from './Comment.module.scss';
 
 const Comment = ({ data }) => {
@@ -21,8 +24,10 @@ const Comment = ({ data }) => {
 		setText(e.target.value);
 	};
 
-	const omSendNewComment = (e) => {
+	const omSendUpdatedComment = (e) => {
 		e.preventDefault();
+		dispatch(updateComment({ commentId: data._id, text }));
+		setIsEdit(false);
 	};
 
 	const onDeleteCommentHandler = (commentId, articleId) => {
@@ -34,11 +39,11 @@ const Comment = ({ data }) => {
 			<div className={s.comment__inner}>
 				<span className={s.comment__userName}>{data.user.fullName}</span>
 				<div className={s.comment__time}>
-					<span>{dayjs(data.createdAt).format('HH:mm')}</span>
-					<span>{dayjs(data.createdAt).format('DD-MM-YY')}</span>
+					<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
+					<span>{dayjs(data.updatedAt).format('DD-MM-YY')}</span>
 				</div>
 				{isEdit ? (
-					<form onSubmit={omSendNewComment} className={s.comment__form}>
+					<form onSubmit={omSendUpdatedComment} className={s.comment__form}>
 						<TextField
 							label="Edit a comment"
 							onChange={onEditCommentHandler}

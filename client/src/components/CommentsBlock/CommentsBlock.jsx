@@ -7,11 +7,15 @@ import List from '@mui/material/List';
 import Skeleton from '@mui/material/Skeleton';
 import Comment from '../Comment/Comment';
 
-export const CommentsBlock = ({ items = [], children, isLoading = true }) => {
+export const CommentsBlock = ({
+	comments = [],
+	children,
+	isLoading = true,
+}) => {
 	return (
 		<SideBlock title="Comments">
 			<List>
-				{(isLoading ? [...Array(5)] : items).map((commentData, index) => (
+				{(isLoading ? [...Array(5)] : comments).map((commentData, index) => (
 					<React.Fragment key={index}>
 						<ListItem alignItems="flex-start">
 							<ListItemAvatar>

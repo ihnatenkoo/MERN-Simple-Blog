@@ -35,13 +35,13 @@ export const FullPost = () => {
 				user={article.user}
 				createdAt={article.createdAt}
 				viewsCount={article.viewCount}
-				commentsCount={3}
+				commentsCount={article.comments?.length}
 				tags={article.tags}
 				isFullPost
 			>
 				<ReactMarkdown children={article.text} />
 			</Post>
-			<CommentsBlock items={article.comments} isLoading={isLoading}>
+			<CommentsBlock comments={article.comments} isLoading={isLoading}>
 				<AddComment />
 			</CommentsBlock>
 		</>
