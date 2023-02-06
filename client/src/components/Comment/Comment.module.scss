@@ -3,15 +3,11 @@
 	display: flex;
 	justify-content: space-between;
 	gap: 12px;
-	cursor: pointer;
 
 	&:hover {
 		.comment__nav {
 			visibility: visible;
 		}
-	}
-	&:hover {
-		background-color: rgba(231, 230, 230, 0.2);
 	}
 
 	&__inner {
@@ -20,12 +16,16 @@
 
 	&__form {
 		margin-top: 22px;
-		button {
-			margin-top: 12px;
-			background-color: #fbbf24;
+		button.edit {
+			margin: 12px 12px 0 0;
+			background-color: #eab308;
 			&:hover {
-				background-color: #f59e0b;
+				background-color: #d19e06;
 			}
+		}
+
+		button.cancel {
+			margin-top: 12px;
 		}
 	}
 
@@ -58,23 +58,22 @@
 		margin-right: 12px;
 		visibility: hidden;
 		display: flex;
+		align-items: center;
 		gap: 12px;
 		font-style: italic;
 		opacity: 0.8;
 
-		&_edit:hover {
-			font-weight: 700;
-			color: #4361ee;
-			text-decoration: underline;
+		&_edit,
+		&_delete {
+			max-height: 30px;
 		}
-		&_delete:hover {
-			font-weight: 700;
-			color: #d32f2f;
-			text-decoration: underline;
+
+		&_edit {
+			background-color: #eab308 !important;
+		}
+
+		&_delete {
+			background-color: #d32f2f !important;
 		}
 	}
-}
-
-.disabled {
-	pointer-events: none;
 }
