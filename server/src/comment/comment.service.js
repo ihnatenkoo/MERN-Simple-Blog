@@ -70,4 +70,16 @@ export class CommentService {
 
 		return comment;
 	}
+
+	async getLast() {
+		return await CommentModel.find()
+			.sort({ updatedAt: -1 })
+			.limit(3)
+			.populate([
+				{
+					path: 'user',
+					select: '-passwordHash -createdAt -updatedAt',
+				},
+			]);
+	}
 }

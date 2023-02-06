@@ -11,6 +11,12 @@ export class CommentController extends BaseController {
 		this.bindRoutes([
 			{
 				basePath: 'comment',
+				path: '/last',
+				method: 'get',
+				function: this.getLast,
+			},
+			{
+				basePath: 'comment',
 				path: '/',
 				method: 'post',
 				function: this.add,
@@ -87,6 +93,15 @@ export class CommentController extends BaseController {
 			res.status(200).json(comment);
 		} catch (error) {
 			next(new HttpError(500, `Comment updating error: ${error}`));
+		}
+	}
+
+	async getLast(req, res, next) {
+		try {
+			const comments = await this.CommentService.getLast();
+			res.status(200).json(comments);
+		} catch (error) {
+			next(new HttpError(500, `Last comments loading error: ${error}`));
 		}
 	}
 }
