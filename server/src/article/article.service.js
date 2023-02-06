@@ -8,7 +8,7 @@ export class ArticleService {
 			FileService.moveFile(imageUrl, 'posts');
 		}
 
-		const tagsArray = tags.split(',').map((t) => t.trim());
+		const tagsArray = tags.split(',').map((t) => t.toLowerCase().trim());
 
 		return await ArticleModel.create({
 			user,
@@ -71,7 +71,7 @@ export class ArticleService {
 			FileService.moveFile(imageUrl, 'posts');
 		}
 
-		const tagsArray = tags.split(',').map((t) => t.trim());
+		const tagsArray = tags.split(',').map((t) => t.toLowerCase().trim());
 
 		return await ArticleModel.findOneAndUpdate(
 			{ _id: articleId, user: userId },

@@ -91,8 +91,7 @@ export const AddPost = () => {
 						text: valueMDE,
 				  });
 
-			const postId = data._id;
-			navigate(`/posts/${postId}`);
+			navigate(`/posts/${data._id}`);
 		} catch (error) {
 			console.log(error);
 		}
