@@ -100,7 +100,7 @@ export const Home = () => {
 						title="Last Comments"
 						comments={lastComments}
 						isLoading={false}
-						isEditable={false}
+						isSideBar={true}
 					/>
 				</Grid>
 			</Grid>

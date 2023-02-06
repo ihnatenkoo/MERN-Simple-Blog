@@ -45,7 +45,7 @@ export const FullPost = () => {
 				title="Comments"
 				comments={article.comments}
 				isLoading={isLoading}
-				isEditable={true}
+				isSideBar={false}
 			>
 				<AddComment />
 			</CommentsBlock>

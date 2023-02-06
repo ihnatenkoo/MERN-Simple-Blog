@@ -31,6 +31,17 @@
 
 	&__userName {
 		font-weight: 700;
+
+		&:hover {
+			color: #4361ee;
+		}
+
+		a {
+			display: flex;
+			gap: 6px;
+			align-items: center;
+			cursor: pointer;
+		}
 	}
 
 	&__time {

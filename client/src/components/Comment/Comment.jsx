@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -8,8 +9,9 @@ import {
 	updateComment,
 } from '../../store/article/article.slice';
 import s from './Comment.module.scss';
+import clsx from 'clsx';
 
-const Comment = ({ data, isEditable }) => {
+const Comment = ({ data, isSideBar }) => {
 	const [text, setText] = useState(data.text);
 	const [isEdit, setIsEdit] = useState(false);
 	const dispatch = useDispatch();
@@ -37,11 +39,24 @@ const Comment = ({ data, isEditable }) => {
 	return (
 		<div className={s.comment}>
 			<div className={s.comment__inner}>
-				<span className={s.comment__userName}>{data.user.fullName}</span>
+				<div className={clsx(s.comment__userName)}>
+					{isSideBar ? (
+						<Link to={`posts/${data.articleId}`}>
+							{data.user.fullName}
+							<span className={clsx('material-icons-outlined', s.icon)}>
+								read_more
+							</span>
+						</Link>
+					) : (
+						<span>{data.user.fullName}</span>
+					)}
+				</div>
+
 				<div className={s.comment__time}>
 					<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
 					<span>{dayjs(data.updatedAt).format('DD-MM-YY')}</span>
 				</div>
+
 				{isEdit ? (
 					<form onSubmit={omSendUpdatedComment} className={s.comment__form}>
 						<TextField
@@ -69,7 +84,7 @@ const Comment = ({ data, isEditable }) => {
 				)}
 			</div>
 
-			{!isEdit && isEditable && userId === data.user._id && (
+			{!isSideBar && !isEdit && userId === data.user._id && (
 				<div className={s.comment__nav}>
 					<Button
 						className={s.comment__nav_edit}

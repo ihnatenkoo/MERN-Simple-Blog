@@ -12,7 +12,7 @@ export const CommentsBlock = ({
 	comments = [],
 	children,
 	isLoading = true,
-	isEditable,
+	isSideBar,
 }) => {
 	return (
 		<SideBlock title={title}>
@@ -40,7 +40,7 @@ export const CommentsBlock = ({
 									<Skeleton variant="text" height={18} width={230} />
 								</div>
 							) : (
-								<Comment data={commentData} isEditable={isEditable}></Comment>
+								<Comment data={commentData} isSideBar={isSideBar}></Comment>
 							)}
 						</ListItem>
 					</React.Fragment>
