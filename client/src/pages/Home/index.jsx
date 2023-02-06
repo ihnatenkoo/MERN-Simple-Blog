@@ -13,6 +13,7 @@ import {
 	SET_SORT,
 } from '../../store/article/article.slice';
 import { getLastTags } from '../../store/tags/tags.slice';
+import { getLastComments } from '../../store/article/article.slice';
 import s from './Home.module.scss';
 
 export const Home = () => {
@@ -23,17 +24,19 @@ export const Home = () => {
 	const isArticleLoading = useSelector((state) => state.articles.isLoading);
 	const tags = useSelector((state) => state.tags.tags);
 	const isTagsLoading = useSelector((state) => state.tags.isLoading);
+	const lastComments = useSelector((state) => state.articles.lastComments);
 	const currentUser = useSelector((state) => state.auth.user?._id);
 	const currentTag = useSelector((state) => state.articles.currentTag);
 	const sort = useSelector((state) => state.articles.sort);
 
 	useEffect(() => {
-		dispatch(getArticles({ sort, currentTag }));
-	}, [sort, currentTag]);
+		dispatch(getLastTags());
+		dispatch(getLastComments());
+	}, []);
 
 	useEffect(() => {
-		dispatch(getLastTags());
-	}, []);
+		dispatch(getArticles({ sort, currentTag }));
+	}, [sort, currentTag]);
 
 	const onChangeTabSort = (e, value) => {
 		dispatch(SET_SORT(e.target.name));
@@ -94,23 +97,10 @@ export const Home = () => {
 				<Grid xs={4} item>
 					<TagsBlock items={tags} isLoading={isTagsLoading} />
 					<CommentsBlock
-						items={[
-							{
-								user: {
-									fullName: 'Mike Adams',
-									avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-								},
-								text: 'You should set the prop to align the avatar at the top',
-							},
-							{
-								user: {
-									fullName: 'Alex Smith',
-									avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-								},
-								text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-							},
-						]}
+						title="Last Comments"
+						comments={lastComments}
 						isLoading={false}
+						isEditable={false}
 					/>
 				</Grid>
 			</Grid>

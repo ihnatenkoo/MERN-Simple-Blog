@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
@@ -7,13 +8,14 @@ import {
 	deleteComment,
 	updateComment,
 } from '../../store/article/article.slice';
+import clsx from 'clsx';
 import s from './Comment.module.scss';
 
-const Comment = ({ data }) => {
+const Comment = ({ data, isEditable }) => {
 	const [text, setText] = useState(data.text);
 	const [isEdit, setIsEdit] = useState(false);
 	const dispatch = useDispatch();
-	const userId = useSelector((state) => state.auth.user._id);
+	const userId = useSelector((state) => state.auth.user?._id);
 	const articleId = useSelector((state) => state.articles.openArticle._id);
 
 	const onToggleEditHandler = () => {
@@ -36,32 +38,38 @@ const Comment = ({ data }) => {
 
 	return (
 		<div className={s.comment}>
-			<div className={s.comment__inner}>
-				<span className={s.comment__userName}>{data.user.fullName}</span>
-				<div className={s.comment__time}>
-					<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
-					<span>{dayjs(data.updatedAt).format('DD-MM-YY')}</span>
+			<Link
+				to={`posts/${data.articleId}`}
+				className={clsx({ [s.disabled]: isEditable })}
+			>
+				<div className={s.comment__inner}>
+					<span className={s.comment__userName}>{data.user.fullName}</span>
+					<div className={s.comment__time}>
+						<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
+						<span>{dayjs(data.updatedAt).format('DD-MM-YY')}</span>
+					</div>
+					{isEdit ? (
+						<form onSubmit={omSendUpdatedComment} className={s.comment__form}>
+							<TextField
+								label="Edit a comment"
+								onChange={onEditCommentHandler}
+								value={text}
+								variant="outlined"
+								maxRows={10}
+								multiline
+								fullWidth
+							/>
+							<Button type="submit" variant="contained">
+								Edit
+							</Button>
+						</form>
+					) : (
+						<span className={s.comment__text}>{data.text}</span>
+					)}
 				</div>
-				{isEdit ? (
-					<form onSubmit={omSendUpdatedComment} className={s.comment__form}>
-						<TextField
-							label="Edit a comment"
-							onChange={onEditCommentHandler}
-							value={text}
-							variant="outlined"
-							maxRows={10}
-							multiline
-							fullWidth
-						/>
-						<Button type="submit" variant="contained">
-							Edit
-						</Button>
-					</form>
-				) : (
-					<span className={s.comment__text}>{data.text}</span>
-				)}
-			</div>
-			{userId === data.user._id && (
+			</Link>
+
+			{isEditable && userId === data.user._id && (
 				<div className={s.comment__nav}>
 					<span onClick={onToggleEditHandler} className={s.comment__nav_edit}>
 						edit

@@ -7,6 +7,11 @@ body {
 	overflow: overlay;
 }
 
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
 ::-webkit-scrollbar {
 	width: 7px;
 	height: 100%;

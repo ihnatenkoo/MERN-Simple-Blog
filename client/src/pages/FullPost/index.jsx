@@ -41,7 +41,12 @@ export const FullPost = () => {
 			>
 				<ReactMarkdown children={article.text} />
 			</Post>
-			<CommentsBlock comments={article.comments} isLoading={isLoading}>
+			<CommentsBlock
+				title="Comments"
+				comments={article.comments}
+				isLoading={isLoading}
+				isEditable={true}
+			>
 				<AddComment />
 			</CommentsBlock>
 		</>

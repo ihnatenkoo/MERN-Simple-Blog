@@ -8,12 +8,14 @@ import Skeleton from '@mui/material/Skeleton';
 import Comment from '../Comment/Comment';
 
 export const CommentsBlock = ({
+	title,
 	comments = [],
 	children,
 	isLoading = true,
+	isEditable,
 }) => {
 	return (
-		<SideBlock title="Comments">
+		<SideBlock title={title}>
 			<List>
 				{(isLoading ? [...Array(5)] : comments).map((commentData, index) => (
 					<React.Fragment key={index}>
@@ -38,7 +40,7 @@ export const CommentsBlock = ({
 									<Skeleton variant="text" height={18} width={230} />
 								</div>
 							) : (
-								<Comment data={commentData}></Comment>
+								<Comment data={commentData} isEditable={isEditable}></Comment>
 							)}
 						</ListItem>
 					</React.Fragment>
