@@ -14,6 +14,7 @@ import {
 } from '../../store/article/article.slice';
 import { getLastTags } from '../../store/tags/tags.slice';
 import { getLastComments } from '../../store/article/article.slice';
+import clsx from 'clsx';
 import s from './Home.module.scss';
 
 export const Home = () => {
@@ -69,8 +70,11 @@ export const Home = () => {
 				{currentTag && (
 					<div className={s.tag}>
 						<span className={s.tag__name}>#{currentTag}</span>
-						<span className={s.tag__delete} onClick={onDeleteActiveTag}>
-							X
+						<span
+							className={clsx('material-icons-outlined', s.tag__delete)}
+							onClick={onDeleteActiveTag}
+						>
+							clear
 						</span>
 					</div>
 				)}

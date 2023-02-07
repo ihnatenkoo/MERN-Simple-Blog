@@ -2,17 +2,21 @@
 	margin-left: 20px;
 	padding: 12px 16px;
 	font-weight: 700;
+	display: flex;
+	align-items: center;
 
 	&__name {
 		text-decoration: underline;
 	}
 
 	&__delete {
-		margin-left: 4px;
+		font-size: 20px;
 		cursor: pointer;
+		transition: all 0.25s ease-in-out;
 
 		&:hover {
-			color: red;
+			color: #d32f2f;
+			transform: rotate(180deg);
 		}
 	}
 }
