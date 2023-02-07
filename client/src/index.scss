@@ -1,5 +1,16 @@
 @import 'material-icons/iconfont/material-icons.css';
 
+:root {
+	--blue: #4361ee;
+	--blue-dark: #3254eb;
+	--yellow: #eab308;
+	--yellow-dark: #d19e06;
+	--red: #d32f2f;
+	--white: #ffffff;
+	--gray-light: #dedede;
+	--black: #000000;
+}
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Roboto';
@@ -25,11 +36,11 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #4361ee;
+	background: var(--blue);
 	border-radius: 5px;
 	outline: 1px solid slategrey;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: #3254eb;
+	background: var(--blue-dark);
 }

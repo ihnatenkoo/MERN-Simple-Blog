@@ -1,16 +1,14 @@
-$blue: #4361ee;
-
 .root {
-	background-color: #fff;
-	border: 1px solid #dedede;
+	background-color: var(--white);
+	border: 1px solid var(--gray-light);
 	border-radius: 6px;
 	overflow: hidden;
 	margin-bottom: 15px;
 	position: relative;
 
 	&:hover {
-		border: 1px solid $blue;
-		box-shadow: 0 0 0 1px $blue;
+		border: 1px solid var(--blue);
+		box-shadow: 0 0 0 1px var(--blue);
 
 		.editButtons {
 			opacity: 1;
@@ -19,8 +17,8 @@ $blue: #4361ee;
 
 	&Full {
 		&:hover {
-			background-color: #fff;
-			border: 1px solid #dedede;
+			background-color: var(--white);
+			border: 1px solid var(--gray-light);
 			box-shadow: none;
 		}
 	}
@@ -65,10 +63,10 @@ $blue: #4361ee;
 
 	a {
 		text-decoration: none;
-		color: #000;
+		color: var(--black);
 
 		&:hover {
-			color: $blue;
+			color: var(--blue);
 		}
 	}
 
@@ -96,7 +94,7 @@ $blue: #4361ee;
 
 		a {
 			text-decoration: none;
-			color: #000;
+			color: var(--black);
 		}
 	}
 }
@@ -121,8 +119,8 @@ $blue: #4361ee;
 }
 
 .skeleton {
-	background-color: #fff;
-	border: 1px solid #dedede;
+	background-color: var(--white);
+	border: 1px solid var(--gray-light);
 	border-radius: 6px;
 	overflow: hidden;
 	margin-bottom: 15px;

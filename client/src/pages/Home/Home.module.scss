@@ -15,7 +15,7 @@
 		transition: all 0.25s ease-in-out;
 
 		&:hover {
-			color: #d32f2f;
+			color: var(--red);
 			transform: rotate(180deg);
 		}
 	}

@@ -18,9 +18,9 @@
 		margin-top: 22px;
 		button.edit {
 			margin: 12px 12px 0 0;
-			background-color: #eab308;
+			background-color: var(--yellow);
 			&:hover {
-				background-color: #d19e06;
+				background-color: var(--yellow-dark);
 			}
 		}
 
@@ -33,7 +33,7 @@
 		font-weight: 700;
 
 		&:hover {
-			color: #4361ee;
+			color: var(--blue);
 		}
 
 		a {
@@ -80,11 +80,11 @@
 		}
 
 		&_edit {
-			background-color: #eab308 !important;
+			background-color: var(--yellow) !important;
 		}
 
 		&_delete {
-			background-color: #d32f2f !important;
+			background-color: var(--red) !important;
 		}
 	}
 }

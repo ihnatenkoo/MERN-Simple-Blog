@@ -1,6 +1,6 @@
 .header {
 	min-height: 71px;
-	background-color: #fff;
+	background-color: var(--white);
 	padding: 10px 0;
 	border-bottom: 1px solid #e0e0e0;
 	margin-bottom: 30px;
@@ -14,8 +14,8 @@
 }
 
 .logo {
-	background-color: black;
-	color: #fff;
+	background-color: var(--black);
+	color: var(--white);
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.15px;
@@ -24,7 +24,7 @@
 	text-decoration: none;
 
 	&:hover {
-		background-color: #4361ee;
+		background-color: var(--blue);
 	}
 }
 
