@@ -44,11 +44,10 @@
 }
 
 .content {
-	margin: 30px 0 50px;
+	margin-top: 12px;
 
 	p {
 		font-size: 22px;
-		line-height: 36px;
 	}
 }
 
@@ -100,9 +99,9 @@
 }
 
 .postDetails {
+	margin-top: 12px;
 	list-style: none;
 	padding: 0;
-	margin: 20px 0 0 0;
 
 	li {
 		display: inline-flex;
