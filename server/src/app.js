@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import filleUpload from 'express-fileupload';
 import cors from 'cors';
-import config from 'config';
 import { AuthController } from './auth/auth.controller.js';
 import { ArticleController } from './article/article.controller.js';
 import { TagsController } from './tags/tags.controller.js';
@@ -47,7 +46,7 @@ export class App {
 		this.useRoutes();
 		this.useExceptionFilter();
 		mongoose.set('strictQuery', true);
-		await mongoose.connect(config.get('DB_URL'));
+		await mongoose.connect(process.env.DB_URL);
 		this.app.listen(this.port);
 		this.logger.info(`Server started on https://localhost:${this.port}`);
 	}

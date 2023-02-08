@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import config from 'config';
 import FileService from '../file/file.service.js';
 import UserModel from '../models/User.js';
 import { userDto } from '../common/dto/user.dto.js';
@@ -21,7 +20,7 @@ export class AuthService {
 			FileService.moveFile(avatarUrl, 'avatars');
 		}
 
-		const token = await this.signJwt(newUser._id, config.get('SECRET_KEY'));
+		const token = await this.signJwt(newUser._id, process.env.SECRET_KEY);
 		const userInfo = userDto(newUser);
 		return { ...userInfo, token };
 	}
@@ -38,7 +37,8 @@ export class AuthService {
 			return false;
 		}
 
-		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
+		const token = await this.signJwt(user._id, process.env.SECRET_KEY);
+
 		const userInfo = userDto(user);
 		return { ...userInfo, token };
 	}
@@ -48,7 +48,7 @@ export class AuthService {
 		if (!user) {
 			return false;
 		}
-		const token = await this.signJwt(user._id, config.get('SECRET_KEY'));
+		const token = await this.signJwt(user._id, process.env.SECRET_KEY);
 		const userInfo = userDto(user);
 		return { ...userInfo, token };
 	}
