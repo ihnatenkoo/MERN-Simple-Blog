@@ -13,7 +13,7 @@ import {
 	SET_SORT,
 } from '../../store/article/article.slice';
 import { getLastTags } from '../../store/tags/tags.slice';
-import { getLastComments } from '../../store/article/article.slice';
+import { getLastComments } from '../../store/lastComments/lastComments.slice';
 import clsx from 'clsx';
 import s from './Home.module.scss';
 
@@ -25,7 +25,10 @@ export const Home = () => {
 	const isArticleLoading = useSelector((state) => state.articles.isLoading);
 	const tags = useSelector((state) => state.tags.tags);
 	const isTagsLoading = useSelector((state) => state.tags.isLoading);
-	const lastComments = useSelector((state) => state.articles.lastComments);
+	const lastComments = useSelector((state) => state.lastComments.lastComments);
+	const lastCommentsLoading = useSelector(
+		(state) => state.lastComments.isLoading
+	);
 	const currentUser = useSelector((state) => state.auth.user?._id);
 	const currentTag = useSelector((state) => state.articles.currentTag);
 	const sort = useSelector((state) => state.articles.sort);
@@ -103,7 +106,7 @@ export const Home = () => {
 					<CommentsBlock
 						title="Last Comments"
 						comments={lastComments}
-						isLoading={false}
+						isLoading={lastCommentsLoading}
 						isSideBar={true}
 					/>
 				</Grid>

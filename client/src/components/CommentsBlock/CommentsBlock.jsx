@@ -11,13 +11,13 @@ export const CommentsBlock = ({
 	title,
 	comments = [],
 	children,
-	isLoading = true,
+	isLoading,
 	isSideBar,
 }) => {
 	return (
 		<SideBlock title={title}>
 			<List>
-				{(isLoading ? [...Array(5)] : comments).map((commentData, index) => (
+				{(isLoading ? [...Array(3)] : comments).map((commentData, index) => (
 					<React.Fragment key={index}>
 						<ListItem alignItems="flex-start">
 							<ListItemAvatar>

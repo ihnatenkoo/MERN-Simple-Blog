@@ -4,7 +4,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	articles: [],
 	openArticle: {},
-	lastComments: [],
 	isLoading: false,
 	isError: false,
 	currentTag: '',
@@ -30,14 +29,6 @@ export const getOneArticle = createAsyncThunk(
 	'articles/GET_ONE',
 	async (id) => {
 		const { data } = await axios.get(`/articles/${id}`);
-		return data;
-	}
-);
-
-export const getLastComments = createAsyncThunk(
-	'articles/GET_LAST_COMMENTS',
-	async () => {
-		const { data } = await axios.get(`/comment/last`);
 		return data;
 	}
 );
@@ -115,10 +106,6 @@ const articleSlice = createSlice({
 
 		builder.addCase(deleteArticle.fulfilled, (state, action) => {
 			state.articles = state.articles.filter((a) => a._id !== action.payload);
-		});
-
-		builder.addCase(getLastComments.fulfilled, (state, action) => {
-			state.lastComments = action.payload;
 		});
 
 		builder.addCase(sendComment.fulfilled, (state, action) => {

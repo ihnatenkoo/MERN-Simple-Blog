@@ -12,7 +12,7 @@ import s from './Comment.module.scss';
 import clsx from 'clsx';
 
 const Comment = ({ data, isSideBar }) => {
-	const [text, setText] = useState(data.text);
+	const [text, setText] = useState(data.text ?? '');
 	const [isEdit, setIsEdit] = useState(false);
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.auth.user?._id);
