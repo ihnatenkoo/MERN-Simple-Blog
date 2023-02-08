@@ -29,3 +29,5 @@ default.json
 
 #static files
 static
+#build files
+build
