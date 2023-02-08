@@ -23,32 +23,27 @@ export const AddComment = () => {
 	};
 
 	return (
-		<>
-			<div className={styles.root}>
-				<Avatar
-					classes={{ root: styles.avatar }}
-					src={
-						avatarUrl && `${process.env.REACT_APP_API_URL}/avatars/${avatarUrl}`
-					}
+		<div className={styles.root}>
+			<Avatar
+				classes={{ root: styles.avatar }}
+				src={
+					avatarUrl && `${process.env.REACT_APP_API_URL}/avatars/${avatarUrl}`
+				}
+			/>
+			<div className={styles.form}>
+				<TextField
+					label="Write a comment"
+					onChange={onTextChange}
+					value={text}
+					variant="outlined"
+					maxRows={10}
+					multiline
+					fullWidth
 				/>
-				<div className={styles.form}>
-					<TextField
-						label="Write a comment"
-						onChange={onTextChange}
-						value={text}
-						variant="outlined"
-						maxRows={10}
-						multiline
-						fullWidth
-					/>
-					<Button
-						onClick={() => onSendCommentHandler(text)}
-						variant="contained"
-					>
-						Send
-					</Button>
-				</div>
+				<Button onClick={() => onSendCommentHandler(text)} variant="contained">
+					Send
+				</Button>
 			</div>
-		</>
+		</div>
 	);
 };

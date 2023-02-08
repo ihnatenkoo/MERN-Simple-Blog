@@ -11,6 +11,7 @@ import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
 export const FullPost = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
+	const isAuth = useSelector((state) => state.auth.isAuth);
 	const article = useSelector((state) => state.articles.openArticle);
 	const { isLoading, isError } = useSelector((state) => state.articles);
 
@@ -47,7 +48,7 @@ export const FullPost = () => {
 				isLoading={isLoading}
 				isSideBar={false}
 			>
-				<AddComment />
+				{isAuth && <AddComment />}
 			</CommentsBlock>
 		</>
 	);
