@@ -14,36 +14,45 @@ export const CommentsBlock = ({
 	isLoading,
 	isSideBar,
 }) => {
+	if (isLoading) {
+		return (
+			<SideBlock title={title}>
+				<List>
+					{[...Array(3)].map((_, index) => (
+						<ListItem alignItems="flex-start" key={index}>
+							<ListItemAvatar>
+								<Skeleton variant="circular" width={40} height={40} />
+							</ListItemAvatar>
+							<div style={{ display: 'flex', flexDirection: 'column' }}>
+								<Skeleton variant="text" height={25} width={120} />
+								<Skeleton variant="text" height={18} width={230} />
+							</div>
+						</ListItem>
+					))}
+				</List>
+				{children}
+			</SideBlock>
+		);
+	}
+
 	return (
 		<SideBlock title={title}>
 			<List>
-				{(isLoading ? [...Array(3)] : comments).map((commentData, index) => (
-					<React.Fragment key={index}>
-						<ListItem alignItems="flex-start">
-							<ListItemAvatar>
-								{isLoading ? (
-									<Skeleton variant="circular" width={40} height={40} />
-								) : (
-									<Avatar
-										alt={commentData.user.fullName}
-										src={
-											commentData.user.avatarUrl
-												? `${process.env.REACT_APP_API_URL}/avatars/${commentData.user.avatarUrl}`
-												: '/noavatar.png'
-										}
-									/>
-								)}
-							</ListItemAvatar>
-							{isLoading ? (
-								<div style={{ display: 'flex', flexDirection: 'column' }}>
-									<Skeleton variant="text" height={25} width={120} />
-									<Skeleton variant="text" height={18} width={230} />
-								</div>
-							) : (
-								<Comment data={commentData} isSideBar={isSideBar}></Comment>
-							)}
-						</ListItem>
-					</React.Fragment>
+				{comments.map((commentData) => (
+					<ListItem alignItems="flex-start" key={commentData._id}>
+						<ListItemAvatar>
+							<Avatar
+								alt={commentData.user.fullName}
+								src={
+									commentData.user.avatarUrl
+										? `${process.env.REACT_APP_API_URL}/avatars/${commentData.user.avatarUrl}`
+										: '/noavatar.png'
+								}
+							/>
+						</ListItemAvatar>
+
+						<Comment data={commentData} isSideBar={isSideBar}></Comment>
+					</ListItem>
 				))}
 			</List>
 			{children}
