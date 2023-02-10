@@ -7,12 +7,15 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 import styles from './Login.module.scss';
 
 export const Login = () => {
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
+	const authError = useSelector((state) => state.auth.authError);
+
 	const {
 		register,
 		handleSubmit,
@@ -63,6 +66,11 @@ export const Login = () => {
 					})}
 					fullWidth
 				/>
+				{authError.message && (
+					<Alert severity="error" className={styles.error}>
+						{authError.message}
+					</Alert>
+				)}
 				<Button
 					disabled={!isValid}
 					type="submit"

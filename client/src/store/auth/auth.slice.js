@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	user: {},
 	isAuth: false,
+	authError: {},
 };
 
 export const onRegister = createAsyncThunk(
@@ -14,10 +15,17 @@ export const onRegister = createAsyncThunk(
 	}
 );
 
-export const onLogin = createAsyncThunk('auth/LOGIN', async (loginData) => {
-	const { data } = await axios.post('/auth/login', loginData);
-	return data;
-});
+export const onLogin = createAsyncThunk(
+	'auth/LOGIN',
+	async (loginData, thunkApi) => {
+		return axios
+			.post('/auth/login', loginData)
+			.then((response) => response.data)
+			.catch((error) =>
+				thunkApi.rejectWithValue(error?.response?.data || error)
+			);
+	}
+);
 
 export const onCheckAuth = createAsyncThunk('auth/checkAuth', async () => {
 	const { data } = await axios.get('/auth/me');
@@ -47,11 +55,10 @@ const authSlice = createSlice({
 			localStorage.setItem('token', action.payload.token);
 			state.user = userInfo;
 			state.isAuth = true;
+			state.authError = {};
 		});
-		builder.addCase(onLogin.rejected, (state) => {
-			localStorage.removeItem('token');
-			state.user = {};
-			state.isAuth = false;
+		builder.addCase(onLogin.rejected, (state, action) => {
+			state.authError = action.payload;
 		});
 
 		builder.addCase(onCheckAuth.fulfilled, (state, action) => {
