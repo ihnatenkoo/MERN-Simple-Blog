@@ -5,6 +5,7 @@ const initialState = {
 	user: {},
 	isAuth: false,
 	authError: {},
+	registerError: {},
 };
 
 export const onRegister = createAsyncThunk(
@@ -52,10 +53,10 @@ const authSlice = createSlice({
 			localStorage.setItem('token', action.payload.token);
 			state.user = userInfo;
 			state.isAuth = true;
-			state.authError = {};
+			state.registerError = {};
 		});
 		builder.addCase(onRegister.rejected, (state, action) => {
-			state.authError = action.payload;
+			state.registerError = action.payload;
 		});
 
 		builder.addCase(onLogin.fulfilled, (state, action) => {

@@ -17,7 +17,7 @@ export const Registration = () => {
 	const [avatarUrl, setAvatarUrl] = useState('');
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
-	const authError = useSelector((state) => state.auth.authError);
+	const registerError = useSelector((state) => state.auth.registerError);
 
 	const {
 		register,
@@ -113,9 +113,9 @@ export const Registration = () => {
 						},
 					})}
 				/>
-				{authError.message && (
+				{registerError.message && (
 					<Alert severity="error" className={styles.error}>
-						{authError.message}
+						{registerError.message}
 					</Alert>
 				)}
 				<Button
