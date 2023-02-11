@@ -12,11 +12,10 @@ export const Header = () => {
 
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
-	const user = useSelector((state) => state.auth.user);
-	const { fullName, avatarUrl } = user ?? {};
+	const { fullName, avatarUrl } = useSelector((state) => state.auth.user);
 
 	const onMenuClickHandler = () => {
-		setIsMenuOpen((prevState) => !prevState);
+		if (isAuth) setIsMenuOpen((prevState) => !prevState);
 	};
 
 	const onLogoutHandler = () => {
@@ -27,13 +26,13 @@ export const Header = () => {
 
 	return (
 		<header className={styles.header}>
-			<Container maxWidth="lg">
+			<Container maxWidth="lg" sx={{ padding: '8px' }}>
 				<div className={styles.header__inner}>
 					<Link className={styles.header__logo} to="/">
 						Ihnatenko BLOG
 					</Link>
 
-					<nav className={styles.nav} onClick={isAuth && onMenuClickHandler}>
+					<nav className={styles.nav} onClick={onMenuClickHandler}>
 						{!localStorage.getItem('token') && (
 							<>
 								<Link to="/login">
@@ -48,7 +47,7 @@ export const Header = () => {
 						{isAuth && (
 							<>
 								<div className={styles.user}>
-									<span>{fullName}</span>
+									<span className={styles.user__name}>{fullName}</span>
 									<img
 										className={styles.user__avatar}
 										src={
