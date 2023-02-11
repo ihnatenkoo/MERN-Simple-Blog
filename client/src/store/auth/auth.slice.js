@@ -9,9 +9,13 @@ const initialState = {
 
 export const onRegister = createAsyncThunk(
 	'auth/REGISTER',
-	async (registerData) => {
-		const { data } = await axios.post('/auth/register', registerData);
-		return data;
+	async (registerData, thunkApi) => {
+		return axios
+			.post('/auth/register', registerData)
+			.then((response) => response.data)
+			.catch((error) =>
+				thunkApi.rejectWithValue(error?.response?.data || error)
+			);
 	}
 );
 
@@ -48,6 +52,10 @@ const authSlice = createSlice({
 			localStorage.setItem('token', action.payload.token);
 			state.user = userInfo;
 			state.isAuth = true;
+			state.authError = {};
+		});
+		builder.addCase(onRegister.rejected, (state, action) => {
+			state.authError = action.payload;
 		});
 
 		builder.addCase(onLogin.fulfilled, (state, action) => {
