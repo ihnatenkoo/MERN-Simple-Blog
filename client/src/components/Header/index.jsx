@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import styles from './Header.module.scss';
 import { logout } from '../../store/auth/auth.slice';
+import styles from './Header.module.scss';
+import clsx from 'clsx';
 
 export const Header = () => {
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.auth.isAuth);
 	const user = useSelector((state) => state.auth.user);
 	const { fullName, avatarUrl } = user ?? {};
+
+	const onMenuClickHandler = () => {
+		setIsMenuOpen((prevState) => !prevState);
+	};
 
 	const onLogoutHandler = () => {
 		if (window.confirm('Are you sure you want to logout')) {
@@ -21,12 +28,12 @@ export const Header = () => {
 	return (
 		<header className={styles.header}>
 			<Container maxWidth="lg">
-				<div className={styles.inner}>
-					<Link className={styles.logo} to="/">
+				<div className={styles.header__inner}>
+					<Link className={styles.header__logo} to="/">
 						Ihnatenko BLOG
 					</Link>
 
-					<div className={styles.buttons}>
+					<nav className={styles.nav} onClick={isAuth && onMenuClickHandler}>
 						{!localStorage.getItem('token') && (
 							<>
 								<Link to="/login">
@@ -41,6 +48,7 @@ export const Header = () => {
 						{isAuth && (
 							<>
 								<div className={styles.user}>
+									<span>{fullName}</span>
 									<img
 										className={styles.user__avatar}
 										src={
@@ -49,22 +57,27 @@ export const Header = () => {
 												: 'noavatar.png'
 										}
 										alt="user"
-									></img>
-									<span>{fullName}</span>
+									/>
 								</div>
-								<Link to="/post/create">
-									<Button variant="contained">Write article</Button>
-								</Link>
-								<Button
-									onClick={onLogoutHandler}
-									variant="contained"
-									color="error"
+								<div
+									className={clsx(styles.nav__menu, {
+										[styles.open]: isMenuOpen,
+									})}
 								>
-									Logout
-								</Button>
+									<Link to="/post/create">
+										<Button variant="contained">Write article</Button>
+									</Link>
+									<Button
+										onClick={onLogoutHandler}
+										variant="contained"
+										color="error"
+									>
+										Logout
+									</Button>
+								</div>
 							</>
 						)}
-					</div>
+					</nav>
 				</div>
 			</Container>
 		</header>
