@@ -62,7 +62,7 @@ export const Post = ({
 			<div className={styles.wrapper}>
 				<UserInfo
 					{...user}
-					additionalText={dayjs(createdAt).format('DD-MM-YYYY')}
+					additionalText={dayjs(createdAt).format('hh:mm DD-MMM-YYYY ')}
 				/>
 				<div className={styles.indention}>
 					<h2
