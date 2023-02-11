@@ -82,8 +82,17 @@ export const Home = () => {
 					</div>
 				)}
 			</Tabs>
-			<Grid container spacing={4}>
-				<Grid xs={8} item>
+			<Grid
+				container
+				spacing={{
+					xs: 1,
+					md: 4,
+				}}
+				sx={{
+					flexDirection: { xs: 'column-reverse', md: 'row' },
+				}}
+			>
+				<Grid xs={12} md={8} item>
 					{isArticleLoading
 						? [...Array(5)].map((_, i) => <PostSkeleton key={i} />)
 						: articles.map((article) => (
@@ -101,7 +110,7 @@ export const Home = () => {
 								/>
 						  ))}
 				</Grid>
-				<Grid xs={4} item>
+				<Grid xs={12} md={4} item>
 					<TagsBlock items={tags} isLoading={isTagsLoading} />
 					<CommentsBlock
 						title="Last Comments"

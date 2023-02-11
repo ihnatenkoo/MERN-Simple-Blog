@@ -16,7 +16,7 @@ const App = () => {
 	return (
 		<>
 			<Header />
-			<Container maxWidth="lg">
+			<Container maxWidth="lg" sx={{ padding: '8px' }}>
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/posts/:id" element={<FullPost />} />
