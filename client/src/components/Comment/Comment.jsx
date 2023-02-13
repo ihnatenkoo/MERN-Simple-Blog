@@ -36,6 +36,11 @@ const Comment = ({ data, isSideBar }) => {
 		dispatch(deleteComment({ commentId, articleId }));
 	};
 
+	const textLengthHandler = (text) => {
+		if (isSideBar && text.length > 100) return `${text.slice(0, 100)}...`;
+		return text;
+	};
+
 	return (
 		<div className={s.comment}>
 			<div className={s.comment__inner}>
@@ -80,7 +85,9 @@ const Comment = ({ data, isSideBar }) => {
 						</Button>
 					</form>
 				) : (
-					<span className={s.comment__text}>{data.text}</span>
+					<span className={s.comment__text}>
+						{textLengthHandler(data.text)}
+					</span>
 				)}
 			</div>
 
