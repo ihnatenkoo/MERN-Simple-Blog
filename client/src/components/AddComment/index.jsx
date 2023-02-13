@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -9,17 +10,21 @@ import styles from './AddComment.module.scss';
 
 export const AddComment = () => {
 	const { id } = useParams(useState);
-	const [text, setText] = useState('');
 	const dispatch = useDispatch();
 	const avatarUrl = useSelector((state) => state.auth.user?.avatarUrl);
 
-	const onTextChange = (e) => {
-		setText(e.target.value);
-	};
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		formState: { errors, isValid },
+	} = useForm({
+		mode: 'onChange',
+	});
 
-	const onSendCommentHandler = (text) => {
+	const onSendCommentHandler = ({ text }) => {
 		dispatch(sendComment({ id, text }));
-		setText('');
+		setValue('text', '');
 	};
 
 	return (
@@ -30,20 +35,30 @@ export const AddComment = () => {
 					avatarUrl && `${process.env.REACT_APP_API_URL}/avatars/${avatarUrl}`
 				}
 			/>
-			<div className={styles.form}>
+			<form
+				className={styles.form}
+				onSubmit={handleSubmit(onSendCommentHandler)}
+			>
 				<TextField
 					label="Write a comment"
-					onChange={onTextChange}
-					value={text}
 					variant="outlined"
 					maxRows={10}
 					multiline
 					fullWidth
+					error={!!errors.text?.message}
+					helperText={errors.text?.message}
+					{...register('text', {
+						required: true,
+						maxLength: {
+							value: 2000,
+							message: 'Max comment length is 2000 characters',
+						},
+					})}
 				/>
-				<Button onClick={() => onSendCommentHandler(text)} variant="contained">
+				<Button type="submit" disabled={!isValid} variant="contained">
 					Send
 				</Button>
-			</div>
+			</form>
 		</div>
 	);
 };
