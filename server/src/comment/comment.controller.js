@@ -2,6 +2,8 @@ import { HttpError } from '../errors/http-error.class.js';
 import { BaseController } from '../common/base.controller.js';
 import checkAuthMiddleware from '../auth/checkAuth.middleware.js';
 import { CommentService } from './comment.service.js';
+import { commentValidation } from '../validations/comment.validation.js';
+import validationErrors from '../validations/validationErrors.middleware.js';
 
 export class CommentController extends BaseController {
 	constructor(logger) {
@@ -20,7 +22,7 @@ export class CommentController extends BaseController {
 				path: '/',
 				method: 'post',
 				function: this.add,
-				middlewares: [checkAuthMiddleware],
+				middlewares: [checkAuthMiddleware, commentValidation, validationErrors],
 			},
 			{
 				basePath: 'comment',
