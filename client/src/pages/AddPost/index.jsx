@@ -29,6 +29,12 @@ export const AddPost = () => {
 		mode: 'onChange',
 	});
 
+	useEffect(() => {
+		if (id) {
+			fetchPostForEditing();
+		}
+	}, []);
+
 	const fetchPostForEditing = async () => {
 		const { data } = await axios.get(`articles/${id}`);
 		setValue('title', data.title);
@@ -36,12 +42,6 @@ export const AddPost = () => {
 		setValueMDE(data.text);
 		setImageUrl(data.imageUrl);
 	};
-
-	useEffect(() => {
-		if (id) {
-			fetchPostForEditing();
-		}
-	}, []);
 
 	const handleChangePreviewFile = async (e) => {
 		setIsPreview(true);

@@ -38,7 +38,13 @@ export const CommentsBlock = ({
 		<SideBlock title={title}>
 			<List>
 				{comments.map((commentData) => (
-					<ListItem alignItems="flex-start" key={commentData._id}>
+					<ListItem
+						alignItems="flex-start"
+						sx={{
+							padding: { xs: '6px', md: '12px' },
+						}}
+						key={commentData._id}
+					>
 						<Comment data={commentData} isSideBar={isSideBar} />
 					</ListItem>
 				))}

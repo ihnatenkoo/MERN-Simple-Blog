@@ -59,6 +59,7 @@
 .title {
 	font-size: 28px;
 	margin: 0;
+	word-break: break-word;
 
 	a {
 		text-decoration: none;
@@ -158,4 +159,10 @@
 	border-radius: 10px;
 	opacity: 0;
 	transition: all 0.15s ease-in-out;
+}
+
+@media screen and (max-width: 575px) {
+	.title {
+		font-size: 25px;
+	}
 }

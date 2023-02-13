@@ -1,4 +1,5 @@
 .comment {
+	width: 100%;
 	overflow: hidden;
 
 	&:hover {
@@ -69,6 +70,19 @@
 
 		&_delete {
 			background-color: var(--red) !important;
+		}
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.comment {
+		margin-bottom: 12px;
+
+		&__nav {
+			visibility: visible;
+			margin-left: 0;
+			flex-grow: 1;
+			justify-content: flex-end;
 		}
 	}
 }

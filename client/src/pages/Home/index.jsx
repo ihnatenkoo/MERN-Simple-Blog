@@ -70,18 +70,20 @@ export const Home = () => {
 					value="2"
 					onClick={(e) => onChangeTabSort(e, '2')}
 				/>
-				{currentTag && (
-					<div className={s.tag}>
-						<span className={s.tag__name}>#{currentTag}</span>
-						<span
-							className={clsx('material-icons-outlined', s.tag__delete)}
-							onClick={onDeleteActiveTag}
-						>
-							clear
-						</span>
-					</div>
-				)}
 			</Tabs>
+
+			{currentTag && (
+				<div className={s.tag}>
+					<span className={s.tag__name}>#{currentTag}</span>
+					<span
+						className={clsx('material-icons-outlined', s.tag__delete)}
+						onClick={onDeleteActiveTag}
+					>
+						clear
+					</span>
+				</div>
+			)}
+
 			<Grid
 				container
 				spacing={{

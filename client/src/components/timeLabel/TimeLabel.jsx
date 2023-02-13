@@ -6,7 +6,7 @@ const TimeLabel = ({ date }) => {
 	return (
 		<div className={s.time}>
 			<span>{dayjs(date).format('HH:mm')}</span>
-			<span>{dayjs(date).format('DD-MMM-YYYY')}</span>
+			<span>{dayjs(date).format('DD-MMM-YY')}</span>
 		</div>
 	);
 };
