@@ -1,6 +1,7 @@
 import ArticleModel from '../models/Article.js';
 import CommentModel from '../models/Comment.js';
 import FileService from '../file/file.service.js';
+import { checkTagsLength } from '../common/utils/checkTagLength.js';
 
 export class ArticleService {
 	async create({ user, title, text, viewCount, tags, imageUrl }) {
@@ -8,7 +9,7 @@ export class ArticleService {
 			FileService.moveFile(imageUrl, 'posts');
 		}
 
-		const tagsArray = tags.split(',').map((t) => t.toLowerCase().trim());
+		const tagsArray = checkTagsLength(tags);
 
 		return await ArticleModel.create({
 			user,
@@ -71,7 +72,7 @@ export class ArticleService {
 			FileService.moveFile(imageUrl, 'posts');
 		}
 
-		const tagsArray = tags.split(',').map((t) => t.toLowerCase().trim());
+		const tagsArray = checkTagsLength(tags);
 
 		return await ArticleModel.findOneAndUpdate(
 			{ _id: articleId, user: userId },
