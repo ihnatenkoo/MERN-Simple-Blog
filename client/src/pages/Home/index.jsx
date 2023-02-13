@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 import { PostSkeleton } from '../../components/Post/Skeleton';
 import { Post } from '../../components/Post';
-import { TagsBlock } from '../../components/TagsBlock';
+import { TagsBlock } from '../../components/TagBlock/TagsBlock';
 import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
-import {
-	getArticles,
-	SET_TAG,
-	SET_SORT,
-} from '../../store/article/article.slice';
+import { getArticles } from '../../store/article/article.slice';
 import { getLastTags } from '../../store/tags/tags.slice';
 import { getLastComments } from '../../store/lastComments/lastComments.slice';
-import clsx from 'clsx';
-import s from './Home.module.scss';
+
+import PostNavBar from '../../components/PostNavBar/PostNavBar';
 
 export const Home = () => {
-	const [activeSlide, setActiveSlide] = useState('1');
-
 	const dispatch = useDispatch();
 	const articles = useSelector((state) => state.articles.articles);
 	const isArticleLoading = useSelector((state) => state.articles.isLoading);
@@ -42,48 +34,9 @@ export const Home = () => {
 		dispatch(getArticles({ sort, currentTag }));
 	}, [sort, currentTag]);
 
-	const onChangeTabSort = (e, value) => {
-		dispatch(SET_SORT(e.target.name));
-		setActiveSlide(value);
-	};
-
-	const onDeleteActiveTag = () => {
-		dispatch(SET_TAG(''));
-	};
-
 	return (
 		<>
-			<Tabs
-				style={{ marginBottom: 15 }}
-				value={activeSlide}
-				aria-label="basic tabs example"
-			>
-				<Tab
-					label="New"
-					name="new"
-					value="1"
-					onClick={(e) => onChangeTabSort(e, '1')}
-				/>
-				<Tab
-					label="Popular"
-					name="popular"
-					value="2"
-					onClick={(e) => onChangeTabSort(e, '2')}
-				/>
-			</Tabs>
-
-			{currentTag && (
-				<div className={s.tag}>
-					<span className={s.tag__name}>#{currentTag}</span>
-					<span
-						className={clsx('material-icons-outlined', s.tag__delete)}
-						onClick={onDeleteActiveTag}
-					>
-						clear
-					</span>
-				</div>
-			)}
-
+			<PostNavBar />
 			<Grid
 				container
 				spacing={{

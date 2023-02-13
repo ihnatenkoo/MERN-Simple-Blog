@@ -1,4 +1,4 @@
-export * from './TagsBlock';
+export * from './TagBlock/TagsBlock';
 export * from './Post';
 export * from './AddComment';
 export * from './SideBlock';

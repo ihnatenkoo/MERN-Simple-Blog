@@ -7,8 +7,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import TagIcon from '@mui/icons-material/Tag';
 import ListItemText from '@mui/material/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
-import { SET_TAG } from '../store/article/article.slice';
-import { SideBlock } from './SideBlock';
+import { SET_TAG } from '../../store/article/article.slice';
+import { SideBlock } from '../SideBlock';
 
 export const TagsBlock = ({ items, isLoading = true }) => {
 	const dispatch = useDispatch();

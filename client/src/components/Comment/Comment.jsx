@@ -5,7 +5,7 @@ import {
 	deleteComment,
 	updateComment,
 } from '../../store/article/article.slice';
-import TimeLabel from '../timeLabel/TimeLabel';
+import TimeLabel from '../TimeLabel/TimeLabel';
 
 import Button from '@mui/material/Button';
 import ListItemAvatar from '@mui/material/ListItemAvatar';

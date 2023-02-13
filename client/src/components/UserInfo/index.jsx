@@ -1,5 +1,5 @@
 import React from 'react';
-import TimeLabel from '../timeLabel/TimeLabel';
+import TimeLabel from '../TimeLabel/TimeLabel';
 import styles from './UserInfo.module.scss';
 
 export const UserInfo = ({ avatarUrl, fullName, date }) => {
