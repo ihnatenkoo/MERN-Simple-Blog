@@ -47,6 +47,7 @@ export const FullPost = () => {
 				comments={article.comments}
 				isLoading={isLoading}
 				isSideBar={false}
+				isFullPost={true}
 			>
 				{isAuth && <AddComment />}
 			</CommentsBlock>

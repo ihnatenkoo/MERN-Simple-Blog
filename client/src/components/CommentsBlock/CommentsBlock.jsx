@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SideBlock } from '../SideBlock';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import List from '@mui/material/List';
 import Skeleton from '@mui/material/Skeleton';
 import Comment from '../Comment/Comment';
+import s from './CommentsBlock.module.scss';
+import clsx from 'clsx';
 
 export const CommentsBlock = ({
 	title,
@@ -12,7 +14,14 @@ export const CommentsBlock = ({
 	children,
 	isLoading,
 	isSideBar,
+	isFullPost,
 }) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const openBlockHandler = () => {
+		setIsOpen((prevState) => !prevState);
+	};
+
 	if (isLoading) {
 		return (
 			<SideBlock title={title}>
@@ -35,16 +44,20 @@ export const CommentsBlock = ({
 	}
 
 	return (
-		<SideBlock title={title}>
-			<List>
+		<SideBlock
+			title={title}
+			isOpen={isOpen}
+			handler={openBlockHandler}
+			isFullPost={isFullPost}
+		>
+			<List
+				className={clsx(s.comment, {
+					[s.open]: isOpen,
+					[s.fullPost]: isFullPost,
+				})}
+			>
 				{comments.map((commentData) => (
-					<ListItem
-						alignItems="flex-start"
-						sx={{
-							padding: { xs: '6px', md: '12px' },
-						}}
-						key={commentData._id}
-					>
+					<ListItem alignItems="flex-start" key={commentData._id}>
 						<Comment data={commentData} isSideBar={isSideBar} />
 					</ListItem>
 				))}

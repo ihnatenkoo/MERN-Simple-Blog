@@ -3,7 +3,7 @@ import styles from './SideBlock.module.scss';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 
-export const SideBlock = ({ children, title, isOpen, handler }) => {
+export const SideBlock = ({ children, title, isOpen, isFullPost, handler }) => {
 	return (
 		<Paper classes={{ root: styles.root }}>
 			<Typography
@@ -12,10 +12,10 @@ export const SideBlock = ({ children, title, isOpen, handler }) => {
 				onClick={handler}
 			>
 				{title}
-				{isOpen ? (
-					<span class="material-icons-outlined">expand_less</span>
+				{isFullPost ? null : isOpen ? (
+					<span className="material-icons-outlined">expand_less</span>
 				) : (
-					<span class="material-icons-outlined">expand_more</span>
+					<span className="material-icons-outlined">expand_more</span>
 				)}
 			</Typography>
 			{children}

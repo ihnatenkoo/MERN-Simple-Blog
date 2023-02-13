@@ -1,11 +1,15 @@
 @media screen and (max-width: 900px) {
-	.tags {
+	.comment {
 		height: 0px;
 		overflow: hidden;
 		transition: height 0.35s ease-out;
 
 		&.open {
-			height: 260px;
+			height: 320px;
+		}
+
+		&.fullPost {
+			height: max-content;
 		}
 	}
 }
