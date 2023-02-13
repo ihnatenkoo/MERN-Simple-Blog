@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,16 +9,32 @@ import ListItemText from '@mui/material/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
 import { SET_TAG } from '../../store/article/article.slice';
 import { SideBlock } from '../SideBlock';
+import s from './TagsBlock.module.scss';
+import clsx from 'clsx';
 
 export const TagsBlock = ({ items, isLoading = true }) => {
+	const [isOpen, setIsOpen] = useState(false);
+
 	const dispatch = useDispatch();
+
+	const openBlockHandler = () => {
+		setIsOpen((prevState) => !prevState);
+	};
+
 	const onTagChangeHandler = (tag) => {
 		dispatch(SET_TAG(tag));
+		setIsOpen(false);
 	};
+
 	return (
-		<SideBlock title="Last Tags">
-			<List>
-				{(isLoading ? [...Array(5)] : items).map((tag, i) => (
+		<SideBlock title="Last Tags" handler={openBlockHandler} isOpen={isOpen}>
+			<List className={clsx(s.tags, { [s.open]: isOpen })}>
+				{isLoading &&
+					[...Array(5)].map((_, i) => {
+						return <Skeleton width={100} key={i} />;
+					})}
+
+				{items.map((tag, i) => (
 					<span
 						key={i}
 						style={{ textDecoration: 'none', color: 'black' }}
@@ -29,11 +45,8 @@ export const TagsBlock = ({ items, isLoading = true }) => {
 								<ListItemIcon style={{ minWidth: 0 }}>
 									<TagIcon />
 								</ListItemIcon>
-								{isLoading ? (
-									<Skeleton width={100} />
-								) : (
-									<ListItemText primary={tag} />
-								)}
+
+								<ListItemText primary={tag} />
 							</ListItemButton>
 						</ListItem>
 					</span>

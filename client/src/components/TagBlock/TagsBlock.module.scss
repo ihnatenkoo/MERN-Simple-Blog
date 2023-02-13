@@ -1,0 +1,11 @@
+@media screen and (max-width: 900px) {
+	.tags {
+		height: 0px;
+		overflow: hidden;
+		transition: height 0.35s ease-out;
+
+		&.open {
+			height: 250px;
+		}
+	}
+}

@@ -1,7 +1,23 @@
 .root {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .title {
-  padding: 15px 15px 0 15px;
+	padding: 15px 15px 0 15px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	span {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.title {
+		span {
+			display: block;
+		}
+	}
 }
