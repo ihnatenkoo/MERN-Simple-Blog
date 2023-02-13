@@ -8,6 +8,8 @@ import {
 	deleteComment,
 	updateComment,
 } from '../../store/article/article.slice';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 import s from './Comment.module.scss';
 import clsx from 'clsx';
 
@@ -43,71 +45,83 @@ const Comment = ({ data, isSideBar }) => {
 
 	return (
 		<div className={s.comment}>
-			<div className={s.comment__inner}>
-				<div className={clsx(s.comment__userName)}>
+			<div className={s.comment__user}>
+				<ListItemAvatar
+					sx={{
+						marginTop: 0,
+					}}
+				>
+					<Avatar
+						alt={data.user?.fullName}
+						src={
+							data.user?.avatarUrl
+								? `${process.env.REACT_APP_API_URL}/avatars/${data.user.avatarUrl}`
+								: '/noavatar.png'
+						}
+					/>
+				</ListItemAvatar>
+
+				<div className={s.comment__user_info}>
 					{isSideBar ? (
 						<Link to={`posts/${data.articleId}`}>
-							{data.user.fullName}
+							{data.user?.fullName ?? 'User was deleted'}
 							<span className={clsx('material-icons-outlined', s.icon)}>
 								read_more
 							</span>
 						</Link>
 					) : (
-						<span>{data.user.fullName}</span>
+						<span>{data.user?.fullName ?? 'User was deleted'}</span>
 					)}
+					<div className={s.comment__time}>
+						<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
+						<span>{dayjs(data.updatedAt).format('DD-MMM-YY')}</span>
+					</div>
 				</div>
 
-				<div className={s.comment__time}>
-					<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
-					<span>{dayjs(data.updatedAt).format('DD-MMM-YY')}</span>
-				</div>
-
-				{isEdit ? (
-					<form onSubmit={omSendUpdatedComment} className={s.comment__form}>
-						<TextField
-							label="Edit a comment"
-							onChange={onEditCommentHandler}
-							value={text}
-							variant="outlined"
-							maxRows={10}
-							multiline
-							fullWidth
-						/>
-						<Button className={s.edit} type="submit" variant="contained">
-							Edit
+				{!isSideBar && !isEdit && userId === data.user?._id && (
+					<div className={s.comment__nav}>
+						<Button
+							className={s.comment__nav_edit}
+							variant="contained"
+							onClick={onToggleEditHandler}
+						>
+							edit
 						</Button>
 						<Button
-							onClick={onToggleEditHandler}
-							className={s.cancel}
+							className={s.comment__nav_delete}
 							variant="contained"
+							onClick={() => onDeleteCommentHandler(data._id, articleId)}
 						>
-							Cancel
+							delete
 						</Button>
-					</form>
-				) : (
-					<span className={s.comment__text}>
-						{textLengthHandler(data.text)}
-					</span>
+					</div>
 				)}
 			</div>
 
-			{!isSideBar && !isEdit && userId === data.user._id && (
-				<div className={s.comment__nav}>
+			{isEdit ? (
+				<form onSubmit={omSendUpdatedComment} className={s.comment__form}>
+					<TextField
+						label="Edit a comment"
+						onChange={onEditCommentHandler}
+						value={text}
+						variant="outlined"
+						maxRows={10}
+						multiline
+						fullWidth
+					/>
+					<Button className={s.edit} type="submit" variant="contained">
+						Edit
+					</Button>
 					<Button
-						className={s.comment__nav_edit}
-						variant="contained"
 						onClick={onToggleEditHandler}
-					>
-						edit
-					</Button>
-					<Button
-						className={s.comment__nav_delete}
+						className={s.cancel}
 						variant="contained"
-						onClick={() => onDeleteCommentHandler(data._id, articleId)}
 					>
-						delete
+						Cancel
 					</Button>
-				</div>
+				</form>
+			) : (
+				<span className={s.comment__text}>{textLengthHandler(data.text)}</span>
 			)}
 		</div>
 	);

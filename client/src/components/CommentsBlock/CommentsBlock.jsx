@@ -2,7 +2,6 @@ import React from 'react';
 import { SideBlock } from '../SideBlock';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import Skeleton from '@mui/material/Skeleton';
 import Comment from '../Comment/Comment';
@@ -40,18 +39,7 @@ export const CommentsBlock = ({
 			<List>
 				{comments.map((commentData) => (
 					<ListItem alignItems="flex-start" key={commentData._id}>
-						<ListItemAvatar>
-							<Avatar
-								alt={commentData.user.fullName}
-								src={
-									commentData.user.avatarUrl
-										? `${process.env.REACT_APP_API_URL}/avatars/${commentData.user.avatarUrl}`
-										: '/noavatar.png'
-								}
-							/>
-						</ListItemAvatar>
-
-						<Comment data={commentData} isSideBar={isSideBar}></Comment>
+						<Comment data={commentData} isSideBar={isSideBar} />
 					</ListItem>
 				))}
 			</List>

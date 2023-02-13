@@ -1,17 +1,10 @@
 .comment {
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	gap: 12px;
+	overflow: hidden;
 
 	&:hover {
 		.comment__nav {
 			visibility: visible;
 		}
-	}
-
-	&__inner {
-		flex-grow: 1;
 	}
 
 	&__form {
@@ -29,22 +22,31 @@
 		}
 	}
 
-	&__userName {
+	&__user {
+		margin-bottom: 8px;
+		display: flex;
+		align-items: center;
 		font-weight: 700;
 
-		&:hover {
-			color: var(--blue);
-		}
-
-		a {
+		&_info {
 			display: flex;
-			gap: 6px;
-			align-items: center;
-			cursor: pointer;
+			flex-direction: column;
+
+			a {
+				display: flex;
+				gap: 6px;
+				align-items: center;
+				cursor: pointer;
+
+				&:hover {
+					color: var(--blue);
+				}
+			}
 		}
 	}
 
 	&__time {
+		font-weight: 400;
 		margin-bottom: 6px;
 		display: flex;
 		align-items: center;
@@ -66,7 +68,7 @@
 	}
 
 	&__nav {
-		margin-right: 12px;
+		margin-left: 40px;
 		visibility: hidden;
 		display: flex;
 		align-items: center;
