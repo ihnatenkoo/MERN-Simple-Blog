@@ -1,7 +1,8 @@
 import React from 'react';
+import TimeLabel from '../timeLabel/TimeLabel';
 import styles from './UserInfo.module.scss';
 
-export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
+export const UserInfo = ({ avatarUrl, fullName, date }) => {
 	return (
 		<div className={styles.root}>
 			<img
@@ -15,7 +16,7 @@ export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
 			/>
 			<div className={styles.userDetails}>
 				<span className={styles.userName}>{fullName}</span>
-				<span className={styles.additional}>{additionalText}</span>
+				<TimeLabel date={date} />
 			</div>
 		</div>
 	);

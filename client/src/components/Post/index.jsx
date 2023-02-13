@@ -60,10 +60,7 @@ export const Post = ({
 				</Link>
 			)}
 			<div className={styles.wrapper}>
-				<UserInfo
-					{...user}
-					additionalText={dayjs(createdAt).format('hh:mm DD-MMM-YYYY ')}
-				/>
+				<UserInfo {...user} date={createdAt} />
 				<div className={styles.indention}>
 					<h2
 						className={clsx(styles.title, { [styles.titleFull]: isFullPost })}

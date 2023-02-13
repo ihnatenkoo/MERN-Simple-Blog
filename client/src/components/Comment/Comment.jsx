@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import {
 	deleteComment,
 	updateComment,
 } from '../../store/article/article.slice';
+import TimeLabel from '../timeLabel/TimeLabel';
+
+import Button from '@mui/material/Button';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import TextField from '@mui/material/TextField';
 import s from './Comment.module.scss';
 import clsx from 'clsx';
 
@@ -72,10 +74,7 @@ const Comment = ({ data, isSideBar }) => {
 					) : (
 						<span>{data.user?.fullName ?? 'User was deleted'}</span>
 					)}
-					<div className={s.comment__time}>
-						<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
-						<span>{dayjs(data.updatedAt).format('DD-MMM-YYYY')}</span>
-					</div>
+					<TimeLabel date={data.updatedAt}></TimeLabel>
 				</div>
 
 				{!isSideBar && !isEdit && userId === data.user?._id && (
