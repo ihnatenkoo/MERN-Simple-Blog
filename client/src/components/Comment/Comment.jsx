@@ -74,7 +74,7 @@ const Comment = ({ data, isSideBar }) => {
 					)}
 					<div className={s.comment__time}>
 						<span>{dayjs(data.updatedAt).format('HH:mm')}</span>
-						<span>{dayjs(data.updatedAt).format('DD-MMM-YY')}</span>
+						<span>{dayjs(data.updatedAt).format('DD-MMM-YYYY')}</span>
 					</div>
 				</div>
 
