@@ -78,7 +78,7 @@ export const Login = () => {
 					variant="contained"
 					fullWidth
 				>
-					Log In
+					Sign In
 				</Button>
 			</form>
 		</Paper>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	deleteComment,

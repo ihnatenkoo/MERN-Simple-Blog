@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { deleteArticle, SET_TAG } from '../../store/article/article.slice';
 import IconButton from '@mui/material/IconButton';

@@ -36,10 +36,10 @@ export const Header = () => {
 						{!localStorage.getItem('token') && (
 							<>
 								<Link to="/login">
-									<Button variant="outlined">Log In</Button>
+									<Button variant="outlined">Sign In</Button>
 								</Link>
 								<Link to="/register">
-									<Button variant="contained">Create account</Button>
+									<Button variant="contained">Sign up</Button>
 								</Link>
 							</>
 						)}
@@ -71,7 +71,7 @@ export const Header = () => {
 										variant="contained"
 										color="error"
 									>
-										Logout
+										Sign out
 									</Button>
 								</div>
 							</>
