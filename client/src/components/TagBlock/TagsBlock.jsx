@@ -31,7 +31,16 @@ export const TagsBlock = ({ items, isLoading = true }) => {
 			<List className={clsx(s.tags, { [s.open]: isOpen })}>
 				{isLoading &&
 					[...Array(5)].map((_, i) => {
-						return <Skeleton width={100} key={i} />;
+						return (
+							<ListItem key={i} disablePadding>
+								<ListItemButton>
+									<ListItemIcon style={{ minWidth: 0 }}>
+										<TagIcon />
+									</ListItemIcon>
+									<Skeleton width={100} key={i} />
+								</ListItemButton>
+							</ListItem>
+						);
 					})}
 
 				{items.map((tag, i) => (
